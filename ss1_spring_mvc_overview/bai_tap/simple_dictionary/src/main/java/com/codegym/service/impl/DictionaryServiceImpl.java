@@ -17,7 +17,6 @@ public class DictionaryServiceImpl implements IDictionaryService {
         dictionary.put("dog","chó");
         dictionary.put("cat","mèo");
         dictionary.put("tree","non");
-        Set<String> set = dictionary.keySet();
 
         for(Map.Entry<String,String> map : dictionary.entrySet()){
             if(map.getKey().equals(name)){

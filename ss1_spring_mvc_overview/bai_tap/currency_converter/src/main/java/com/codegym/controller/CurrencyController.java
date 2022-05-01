@@ -12,6 +12,7 @@ public class CurrencyController {
         return "/homepage";
     }
 
+
     @GetMapping("/currency")
     public String currency(@RequestParam Integer usd, Model model){
         model.addAttribute("vnd",usd*23000);
