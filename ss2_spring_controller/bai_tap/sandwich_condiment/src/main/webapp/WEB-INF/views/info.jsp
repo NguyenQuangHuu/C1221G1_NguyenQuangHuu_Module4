@@ -13,12 +13,26 @@
 </head>
 <body>
 <div>
-    List condiments Order:
+
+    <c:if test="${message == null}">
     <ul>
-        <c:forEach items="${condiments}" var="c">
-            <li>${c.toString()}</li>
-        </c:forEach>
+        <c:if test="${condiments != null}">
+        List condiments Order:
+
+            <c:forEach items="${condiments}" var="c">
+                <li>${c.toString()}</li>
+            </c:forEach>
+
+
+
     </ul>
+
+        </c:if>
+    </c:if>
+    <c:if test="${message!=null}">
+        ${message}
+    </c:if>
+
 </div>
 </body>
 </html>

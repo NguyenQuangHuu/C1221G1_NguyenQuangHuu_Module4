@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @Controller
 public class SandwichController {
 
@@ -16,9 +18,13 @@ public class SandwichController {
     }
 
     @PostMapping("/info")
-    public ModelAndView infoSubmit(@RequestParam String[] condiments){
+    public ModelAndView infoSubmit(@RequestParam Optional<String[]> condiments  ){
         ModelAndView modelAndView =  new ModelAndView("/info");
-        modelAndView.addObject("condiments",condiments);
+        if(condiments.isPresent()){
+            modelAndView.addObject("condiments",condiments);
+        }else{
+            modelAndView.addObject("message","NONNNNNNNN!");
+        }
         return modelAndView;
     }
 }
