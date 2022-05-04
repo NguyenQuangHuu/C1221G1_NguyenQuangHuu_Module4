@@ -9,18 +9,31 @@ import java.text.NumberFormat;
 @Controller
 public class CalculatorController {
 
-    @GetMapping("/homepage")
+    @GetMapping("/index")
     public String homepage(){
         return "/index";
     }
 
 
-    @PostMapping("/homepage")
+    @PostMapping("/index")
     public String calculate(Model model, @RequestParam String leftNumber, @RequestParam String rightNumber, @RequestParam String operator) {
         Integer result = null;
-        Integer numberOne = Integer.parseInt(leftNumber);
-        Integer numberTwo = Integer.parseInt(rightNumber);
+        String message = null;
+        Integer numberOne = 0;
+                try{
+                    numberOne = Integer.parseInt(leftNumber);
+                }catch (NumberFormatException e){
+                    message = "Không thể nhập chữ";
+                }
 
+
+        Integer numberTwo = 0;
+                try{
+                    numberTwo =   Integer.parseInt(rightNumber);
+
+                }catch (NumberFormatException e){
+                    message = "Không thể nhập chữ";
+                }
         switch (operator) {
             case "Addition(+)":
                 result = numberOne + numberTwo;
@@ -32,11 +45,22 @@ public class CalculatorController {
                 result = numberOne * numberTwo;
                 break;
             case "Divide(/)":
-                result = numberOne / numberTwo;
+                if(numberTwo == 0){
+                    if(numberOne < 0){
+                        message = "Phương thức chia cho 0 kết quả trả về là Âm vô cùng";
+                    }else if(numberOne > 0){
+                        message = "Phương thức chia cho 0 kết quả trả về là Dương vô cùng";
+                    }else{
+                        result = 0;
+                    }
+                }else{
+                    result = numberOne / numberTwo;
+                }
                 break;
         }
         model.addAttribute("result", result);
         model.addAttribute("operator",operator);
+        model.addAttribute("message",message);
         return "/index";
     }
 }

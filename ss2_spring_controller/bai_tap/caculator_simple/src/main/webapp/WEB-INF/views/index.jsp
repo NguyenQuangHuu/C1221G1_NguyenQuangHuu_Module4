@@ -24,8 +24,13 @@ Calculator
         <input type="submit" name="operator"  value="Divide(/)">
 </form>
 <hr>
-<c:if test="${result != null}">
-    Result ${operator} : <h4> ${result} </h4>
+<c:if test="${message == null}">
+    <c:if test="${result != null}">
+        Result ${operator} : <h4> ${result} </h4>
+    </c:if>
+</c:if>
+<c:if test="${message != null}">
+    ${message}
 </c:if>
 </body>
 </html>
