@@ -117,4 +117,21 @@ public class Information {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "Information{" +
+                "name='" + name + '\'' +
+                ", dayOfBirth='" + dayOfBirth + '\'' +
+                ", gender='" + gender + '\'' +
+                ", country='" + country + '\'' +
+                ", passportId='" + passportId + '\'' +
+                ", vehicles='" + vehicles + '\'' +
+                ", vehiclesPlate='" + vehiclesPlate + '\'' +
+                ", seatNumber='" + seatNumber + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }

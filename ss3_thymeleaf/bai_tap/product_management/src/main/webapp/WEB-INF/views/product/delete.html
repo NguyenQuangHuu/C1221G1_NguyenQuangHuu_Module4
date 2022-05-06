@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Giao diện xóa sản phẩm</title>
+    <th:block th:replace="~{/product/layout :: link-bootstrap}"></th:block>
+</head>
+<body>
+<form th:object="${product}" th:action="@{/delete}" th:method="post">
+    <div class="card w-50 mx-auto mt-4">
+        <div class="card-body">
+            <fieldset class="w-50 mx-auto">
+            <legend class="card-title text-info">Thông tin sản phẩm muốn xóa</legend>
+            <div  class="text-danger">
+                <input type="hidden" th:field="*{id}"/>
+            </div>
+            <div>
+                Tên sản phẩm:
+                <span class="card-text text-danger" th:text="*{name}"></span>
+            </div>
+            <div >
+                Giá sản phẩm:
+                <span class="card-text text-danger" th:text="*{price}"></span>
+            </div>
+            <div >
+                Mô tả của sản phẩm:
+                <span class="card-text text-danger" th:text="*{description}"></span>
+            </div>
+            <div  >
+                Nhà sản xuất:
+                <span class="card-text text-danger" th:text="*{manufacturer}"></span>
+            </div>
+
+            <a th:href="@{/products}" class="btn btn-secondary">Trở về</a>
+            <button type="submit" class="btn btn-warning">Xác nhận xóa</button>
+            </fieldset>
+        </div>
+    </div>
+</form>
+<th:block th:replace="~{/product/layout :: js-mdbootstrap}"></th:block>
+</body>
+</html>

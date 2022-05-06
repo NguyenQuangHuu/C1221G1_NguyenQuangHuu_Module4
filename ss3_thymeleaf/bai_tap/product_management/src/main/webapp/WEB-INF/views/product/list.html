@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/product/layout :: link-bootstrap}"></th:block>
+</head>
+<body>
+    <h4 class="text-success text-center m-4">Danh sách sản phẩm:</h4>
+    <form class="text-center" th:action="@{/search}" th:method="get">
+        <div class="form-outline w-25 mx-auto my-2">
+            <input class="form-control" id="desc1" type="text" name="query"/>
+            <label class="form-label" for="desc1">Tìm kiếm theo tên sản phẩm</label>
+        </div>
+        <input class="btn btn-info my-4" type="submit" value="Tìm kiếm sản phẩm">
+    </form>
+    <table  class="table table-striped mx-auto w-75">
+        <thead >
+        <tr class="table-warning">
+            <th>#</th>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Manufacturer</th>
+            <th colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="product,status : ${productList}">
+            <td th:text="${status.index+1}"></td>
+            <td th:text="${product.id}"></td>
+            <td ><a th:href="@{/detail/{id}(id=${product.id})}"><span th:text="${product.name}"></span></a></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.getDescription()}"></td>
+            <td th:text="${product.manufacturer}"></td>
+            <td ><a th:href="@{/edit/{id}(id=${product.id})}">Edit</a></td>
+
+            <td ><a th:href="@{/delete/{id}(id=${product.id})}">Delete</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <span class="text-secondary my-4" th:text="${message}"></span>
+    </div>
+    <div class="text-center">
+        <h5><a class="btn text-secondary ms-4" th:href="@{/create}">Thêm sản phẩm</a></h5>
+    </div>
+
+
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/delete/{id}}">
+                    <input type="hidden" id="deleteProduct">
+                    <div class="modal-body">Bạn xác nhận muốn xóa đối tượng <span id="name"></span></div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Hủy bỏ</button>
+                    <button type="submit" class="btn btn-primary">Vẫn xóa</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <th:block th:replace="~{/product/layout :: js-mdbootstrap}"></th:block>
+</body>
+</html>
