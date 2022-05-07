@@ -31,47 +31,65 @@
         <tr th:each="product,status : ${productList}">
             <td th:text="${status.index+1}"></td>
             <td th:text="${product.id}"></td>
-            <td ><a th:href="@{/detail/{id}(id=${product.id})}"><span th:text="${product.name}"></span></a></td>
+            <td ><a class="text-secondary" th:href="@{/detail/{id}(id=${product.id})}"><strong th:text="${product.name}"></strong></a></td>
             <td th:text="${product.price}"></td>
             <td th:text="${product.getDescription()}"></td>
             <td th:text="${product.manufacturer}"></td>
-            <td ><a th:href="@{/edit/{id}(id=${product.id})}">Edit</a></td>
-
-            <td ><a th:href="@{/delete/{id}(id=${product.id})}">Delete</a></td>
+            <td ><a class="btn btn-secondary" th:href="@{/edit/{id}(id=${product.id})}">Edit</a></td>
+            <td><button th:onclick="'getId(\''+${product.id}+'\',\''+${product.name}+'\');'" type="button" class="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">
+                Delete
+            </button></td>
+<!--            <td ><a th:href="@{/delete/{id}(id=${product.id})}">Delete</a></td>-->
         </tr>
         </tbody>
     </table>
-    <div class="text-center">
-        <span class="text-secondary my-4" th:text="${message}"></span>
+    <div class="text-center" th:if="${message != null}">
+        <span class="text-light my-4 bg-danger p-2 rounded-pill" th:text="${message}"></span>
     </div>
     <div class="text-center">
-        <h5><a class="btn text-secondary ms-4" th:href="@{/create}">Thêm sản phẩm</a></h5>
+        <h5><a class="btn text-secondary ms-4 mt-4" th:href="@{/create}">Thêm sản phẩm</a></h5>
     </div>
 
 
 
     <!-- Button trigger modal -->
-
+<!--    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">-->
+<!--        Launch static backdrop modal-->
+<!--    </button>-->
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+    >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa</h5>
+                    <h5 class="modal-title" id="staticBackdropLabel">Chức năng xóa sản phẩm</h5>
                     <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form th:action="@{/delete/{id}}">
-                    <input type="hidden" id="deleteProduct">
-                    <div class="modal-body">Bạn xác nhận muốn xóa đối tượng <span id="name"></span></div>
-                    <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Hủy bỏ</button>
+                <form th:action="@{/delete/}">
+                <input type="hidden" id="deleteId" name="id">
+                <div class="modal-body">Bạn xác nhận muốn xóa sản phẩm <span style="color: chocolate" id="deleteName"></span></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Hủy</button>
                     <button type="submit" class="btn btn-primary">Vẫn xóa</button>
                 </div>
                 </form>
             </div>
         </div>
     </div>
+    <script>
+        function getId(id,name){
+            document.getElementById("deleteId").value = id;
+            document.getElementById("deleteName").innerText = name;
+        }
+    </script>
     <th:block th:replace="~{/product/layout :: js-mdbootstrap}"></th:block>
 </body>
 </html>

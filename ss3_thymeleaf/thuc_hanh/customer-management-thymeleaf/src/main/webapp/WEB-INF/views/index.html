@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="/layout :: head">
+
 </head>
 <body>
 <h3>Customers</h3>
@@ -31,11 +32,54 @@
         <td th:text="${row.getEmail()}"></td>
         <td th:text="${row.getAddress()}"></td>
         <td><a th:href="@{/edit/{id}(id=${row.getId()})}">edit</a></td>
-        <td><a th:href="@{/delete/{id}(id=${row.getId()})}">delete</a></td>
+        <td>
+            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">
+                delete
+            </button>
+            <div
+                    class="modal fade"
+                    id="staticBackdrop"
+                    data-mdb-backdrop="static"
+                    data-mdb-keyboard="false"
+                    tabindex="-1"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Xóa khách hàng này</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                            <input type="text" hidden  id="deleteCustomer">
+                            <div class="modal-body">...</div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Hủy thao tác</button>
+                                <a th:href="@{/delete/{id}(id=${row.getId()})}" class="btn btn-primary">Vẫn xóa</a>
+                            </div>
+
+                    </div>
+                </div>
+            </div>
+        </td>
+
+
         <td><a th:href="@{/view/{id}(id=${row.getId()})}">view</a></td>
     </tr>
     </tbody>
 </table>
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<script>
+    function getId(row){
+        console.log(row);
+    }
+</script>
 <footer th:replace="/layout :: footer"></footer>
 </body>
 </html>

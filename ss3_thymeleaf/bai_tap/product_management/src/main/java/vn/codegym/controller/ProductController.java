@@ -59,24 +59,26 @@ public class ProductController {
 
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteProductConfirm(@PathVariable Integer id,Model model){
+    @GetMapping("/delete/")
+    public String deleteProductConfirm(@RequestParam Integer id,Model model,RedirectAttributes redirectAttributes){
         Product product = this.service.findById(id);
         if(product==null){
             return "product/error";
         }else{
-            model.addAttribute("product",product);
-            return "/product/delete";
+            this.service.delete(product.getId());
+            redirectAttributes.addFlashAttribute("message","Xóa sản phẩm thành công");
+//            model.addAttribute("product",product);
+            return "redirect:/products";
         }
 
     }
 
-    @PostMapping("/delete")
-    public String deleteProduct(Product product,RedirectAttributes redirectAttributes){
-        this.service.delete(product.getId());
-        redirectAttributes.addFlashAttribute("message","Xóa sản phẩm thành công");
-        return "redirect:/products";
-    }
+//    @GetMapping("/delete/{id}")
+//    public String deleteProduct(@PathVariable String id, Product product,RedirectAttributes redirectAttributes){
+//        System.out.println(id);
+//        redirectAttributes.addFlashAttribute("message","Xóa sản phẩm thành công");
+//        return "redirect:/products";
+//    }
 
     @GetMapping("/detail/{id}")
     public String detailProduct(@PathVariable Integer id,Model model){
@@ -91,14 +93,22 @@ public class ProductController {
 
     @GetMapping("/search")
     public String searchProduct(@RequestParam("query")String query,Model model,RedirectAttributes redirectAttributes){
+
+        if("".equals(query)){
+            return "redirect:/products";
+        }
+
         List<Product> products = this.service.findProductByName(query);
         if(products == null){
-            redirectAttributes.addFlashAttribute("message","Không tìm thấy sản phẩm với tên này");
-            return "redirect:/products";
+//            redirectAttributes.addFlashAttribute("message","Không tìm thấy sản phẩm với tên này");
+//            redirectAttributes.addAttribute("productList",products);
+            model.addAttribute("productList",products);
+            model.addAttribute("message","Không tìm thấy sản phẩm bạn muốn tìm");
         }else{
             model.addAttribute("productList",products);
-            return "/product/list";
+            model.addAttribute("message","Đã tìm thấy sản phẩm bạn muốn tìm");
         }
+        return "/product/list";
     }
 
 }
