@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nhạc hay</title>
+</head>
+<body>
+<div class="ratio ratio-16x9 text-center" th:object="${song}">
+    tên bài hát : <p class="h4 text-danger" th:text="*{songName}"></p>
+    Tác giá <p class="h4 text-danger" th:text="*{author}"></p>
+
+    <iframe width="885" height="498" th:src="*{songUrl}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+</body>
+</html>

@@ -3,7 +3,10 @@ package vn.codegym.repository.impl;
 import org.springframework.stereotype.Repository;
 import vn.codegym.model.Product;
 import vn.codegym.repository.ProductRepository;
+import vn.codegym.util.ProductNotFoundException;
 
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,51 +14,50 @@ import java.util.Map;
 
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
-    static  Map<Integer,Product> products = new LinkedHashMap<>();
-    static{
-        products.put(1,new Product(1,"Bánh Xe",10000.0,"Bánh này có thể ăn được","Công ty lốp xe"));
-        products.put(2,new Product(2,"Kẹo ke",10000.0,"Kẹo này hít vui lắm","Công ty trách nhiệm"));
-        products.put(3,new Product(3,"Bánh phồng mồm",10000.0,"Hơi nóng nhưng đớp vô tư","Công ty một thành viên"));
-        products.put(4,new Product(4,"Kẹo bánh xe ",10000.0,"Kẹo dành cho người răng sắt","Công ty"));
-        products.put(5,new Product(5,"Thạch rau canabis",10000.0,"Kẹo này high lắm","Công ty hữu hạn"));
-    }
 
     @Override
     public List<Product> getAll() {
-        return new ArrayList<>(products.values());
+        TypedQuery<Product> typedQuery = BaseRepository.entityManager.createQuery("select p from Product p",Product.class);
+        return typedQuery.getResultList();
     }
 
     @Override
-    public void save(Product product) {
-        products.put(product.getId(),product);
+    public void saveOrUpdate(Product product) {
+        EntityTransaction entityTransaction = BaseRepository.entityManager.getTransaction();
+        if(product.getId() == null){
+            entityTransaction.begin();
+            BaseRepository.entityManager.persist(product);
+            entityTransaction.commit();
+        }else{
+            entityTransaction.begin();
+            BaseRepository.entityManager.merge(product);
+            entityTransaction.commit();
+        }
     }
 
     @Override
     public Product findById(Integer id) {
-        if(products.containsKey(id)){
-            return products.get(id);
+        return BaseRepository.entityManager.find(Product.class,id);
+    }
+
+
+    @Override
+    public void delete(int id) throws ProductNotFoundException {
+        EntityTransaction entityTransaction = BaseRepository.entityManager.getTransaction();
+        Product product = findById(id);
+        if(product == null){
+            throw new ProductNotFoundException("Không tồn tại sản phẩm này");
+        }else{
+            entityTransaction.begin();
+            BaseRepository.entityManager.remove(product);
+            entityTransaction.commit();
         }
-        return null;
-    }
-
-    @Override
-    public void update(Integer id, Product product) {
-        products.replace(id,product);
-    }
-
-    @Override
-    public void delete(int id) {
-        products.remove(id);
     }
 
     @Override
     public List<Product> findProductByName(String query) {
-        List<Product> product = new ArrayList<>();
-        for(Map.Entry<Integer,Product> key : products.entrySet()){
-            if(key.getValue().getName().toLowerCase().contains(query.toLowerCase())){
-                product.add(key.getValue());
-            }
-        }
-        return product;
+        TypedQuery<Product> typedQuery = BaseRepository.entityManager.createQuery("select p from Product p where p.name like :name",Product.class);
+        typedQuery.setParameter("name",'%'+query+'%');
+        return typedQuery.getResultList();
     }
 }

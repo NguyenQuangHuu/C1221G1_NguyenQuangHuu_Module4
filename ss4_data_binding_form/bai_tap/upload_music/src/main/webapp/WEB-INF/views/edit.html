@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chỉnh sửa chi tiết bài nhạc</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body>
+<h4 class="text-primary text-center">Màn hình chỉnh sửa upload bài hát</h4>
+<form th:object="${song}" th:action="@{/edit}" th:method="post">
+
+
+    <div>
+    <input type="hidden" th:field="*{id}">
+
+    </div>
+
+    <div class="form-outline w-25 mx-auto my-4 ">
+        <input class="form-control" id="name1" type="text" th:field="*{author}"/>
+        <label class="form-label" for="name1"><strong>Tên tác giả</strong></label>
+    </div>
+    <div class="form-outline w-25 mx-auto my-4">
+        <input class="form-control" id="kindOfMusic" type="text" th:field="*{kindOfMusic}"/>
+        <label class="form-label" for="kindOfMusic">Thể loại nhạc</label>
+    </div>
+    <div class="form-outline w-25 mx-auto my-4">
+        <input class="form-control" id="songName" type="text" th:field="*{songName}"/>
+        <label class="form-label" for="songName">Tên bài hát</label>
+    </div>
+    <div class="form-outline w-25 mx-auto my-4">
+        <input class="form-control" id="songUrl" type="text" th:field="*{songUrl}"/>
+        <label class="form-label" for="songUrl">Đường dẫn</label>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-secondary mx-auto" th:href="@{/music}">Cancel</a>
+        <input class="btn btn-secondary mx-auto" type="submit" value="Submit">
+    </div>
+
+</form>
+<th:block th:replace="/layout::js-mdbootstrap"></th:block>
+</body>
+</html>

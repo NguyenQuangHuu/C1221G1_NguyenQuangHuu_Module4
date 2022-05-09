@@ -1,9 +1,23 @@
 package vn.codegym.model;
 
+
+import javax.persistence.*;
+
+@Entity
+@Table(name="song")
 public class Song {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "song_name")
     private String songName;
     private String author;
+
+    @Column(name = "kind_of_music")
     private String kindOfMusic;
+
+    @Column(name="song_url")
     private String songUrl;
 
     public Song(String songName, String author, String kindOfMusic, String songUrl) {
@@ -14,6 +28,14 @@ public class Song {
     }
 
     public Song() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getSongName() {

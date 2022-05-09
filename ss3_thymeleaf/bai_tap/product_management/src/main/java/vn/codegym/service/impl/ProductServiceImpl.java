@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import vn.codegym.model.Product;
 import vn.codegym.repository.ProductRepository;
 import vn.codegym.service.ProductService;
+import vn.codegym.util.ProductNotFoundException;
 
 import java.util.List;
 
@@ -19,8 +20,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void save(Product product) {
-        product.setId((int) (Math.random()*1000));
-        this.repository.save(product);
+
+        this.repository.saveOrUpdate(product);
     }
 
     @Override
@@ -30,11 +31,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void update(Integer id,Product product) {
-        this.repository.update(id,product);
+        this.repository.saveOrUpdate(product);
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(int id) throws ProductNotFoundException {
         this.repository.delete(id);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import vn.codegym.model.Product;
 import vn.codegym.service.ProductService;
+import vn.codegym.util.ProductNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +64,13 @@ public class ProductController {
     public String deleteProductConfirm(@RequestParam Integer id,Model model,RedirectAttributes redirectAttributes){
         Product product = this.service.findById(id);
         if(product==null){
-            return "product/error";
+            return "/product/error";
         }else{
-            this.service.delete(product.getId());
+            try {
+                this.service.delete(product.getId());
+            } catch (ProductNotFoundException e) {
+                model.addAttribute("message",e.getMessage());
+            }
             redirectAttributes.addFlashAttribute("message","Xóa sản phẩm thành công");
 //            model.addAttribute("product",product);
             return "redirect:/products";

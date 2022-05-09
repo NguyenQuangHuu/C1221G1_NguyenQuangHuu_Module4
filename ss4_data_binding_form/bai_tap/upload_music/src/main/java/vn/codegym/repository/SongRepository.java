@@ -8,4 +8,10 @@ public interface SongRepository {
     List<Song> findAll();
 
     void save(Song song);
+
+    Song findOne(Integer id);
+
+    void editSong(Song song);
+
+    void deleteOne(Song song);
 }
