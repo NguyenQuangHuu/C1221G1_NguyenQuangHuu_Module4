@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body>
+<div th:replace="~{/layout::nav-bar}"></div>
+<p class="h4 text-primary text-center my-2">Danh sách blog</p>
+<div class="text-center my-3">
+    <a class="btn btn-secondary mx-auto" th:href="@{/add-blog}">Đăng bài</a>
+    <a class="btn btn-secondary mx-auto" th:href="@{/category}">Quản lý danh mục</a>
+</div>
+<div class="text-center w-25 py-4 mx-auto">
+    <form th:action="@{/search}" class="input-group w-auto my-auto d-none d-sm-flex">
+        <input
+                autocomplete="off"
+                type="search"
+                class="form-control rounded"
+                placeholder="Search"
+                style="min-width: 125px;"
+        name="name"/>
+        <button class="btn btn-success" type="submit">Submit</button>
+    </form>
+</div>
+<table class="table table-bordered border-success w-75 mx-auto min-vh-100">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Id</th>
+        <th>Blog Title</th>
+        <th>Blog Content</th>
+        <th>Author</th>
+        <th>Posting Date</th>
+        <th>Category</th>
+        <th th:colspan="2">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="blog,status : ${blogList}">
+        <td th:text="${status.index+1}"></td>
+        <td th:text="${blog.id}"></td>
+        <td ><a th:href="@{/view/{id}(id=${blog.id})}"><span th:text="${blog.title}"></span></a></td>
+        <td th:text="${blog.content}"></td>
+        <td th:text="${blog.author}"></td>
+        <td th:text="${blog.dateCreate}"></td>
+        <td th:text="${blog.category.name}"></td>
+        <td><a th:href="@{/edit/{id}(id=${blog.id})}"><span>Edit</span></a></td>
+        <td><button type="button" th:attr="onclick=|deleteModal('${blog.id}','${blog.title}','${blog.author}')|" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+            Delete
+        </button></td>
+
+<!--        <a th:href="@{/delete/{id}(id=${blog.id})}"><span>Delete</span></a>-->
+    </tr>
+    </tbody>
+</table>
+<nav aria-label="..." >
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link text-primary" th:if="${blogList.hasPrevious()}" th:href="@{'/'(page=${blogList.number-1})}">Previous</a>
+        </li>
+<!--        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--        <li class="page-item active" aria-current="page">-->
+<!--            <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>-->
+<!--        </li>-->
+<!--        <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+        <li class="page-item"><a class="page-link text-secondary" th:text="${blogList.number+1}"></a></li>
+        <li class="page-item"><a class="page-link text-warning" th:text="'/  '+${blogList.getTotalPages()}"></a></li>
+
+        <li class="page-item">
+            <a class="page-link text-success" th:if="${blogList.hasNext()}" th:href="@{'/'(page=${blogList.number+1})}" >Next</a>
+        </li>
+    </ul>
+</nav>
+<footer th:replace="/layout::footer"></footer>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/delete">
+                <input type="hidden" id="idModal" name="id">
+            <div class="modal-body">Bạn có chắc muốn xóa <span id="titleModal"></span> của tác giả : <span id="authorModal"></span></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Hủy thao tác</button>
+                <button type="submit" class="btn btn-primary">Vẫn xóa</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteModal(id,name,author){
+        document.getElementById("idModal").value = id;
+        document.getElementById("titleModal").innerText = name;
+        document.getElementById("authorModal").innerText = author;
+    }
+</script>
+<th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

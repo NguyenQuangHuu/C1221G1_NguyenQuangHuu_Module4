@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo blog mới</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body>
+<p class="h4 text-center text-warning m-4">Thông tin bài viết</p>
+<form th:object="${blog}" th:action="@{/add-blog}" th:method="post">
+    <div class="form-outline my-4 w-75 mx-auto">
+        <input type="text" id="title" class="form-control form-control-lg" th:field="*{title}" />
+        <label class="form-label" for="title">Tiêu đề</label>
+    </div>
+    <div class="form-outline my-4 w-75 mx-auto">
+        <input type="text" id="author" th:field="*{author}" class="form-control form-control-lg" />
+        <label class="form-label" for="author">Tác giả</label>
+    </div>
+
+    <div class="form-outline my-4 w-75 mx-auto">
+        <textarea class="form-control" th:field="*{content}" id="content" cols="30" rows="6"></textarea>
+        <label class="form-label" for="content">Nội dung blog</label>
+    </div>
+    <div class="text-center">
+        <label for="category">Mục lục:</label>
+        <select id="category" class="mx-auto select" th:field="*{category}">
+            <option th:each="category: ${categoryList}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select>
+
+    </div>
+    <div class="text-center my-3">
+        <input type="submit" value="Đăng tải blog" class="btn btn-primary">
+        <a class="btn btn-secondary" th:href="@{/}">Trở lại</a>
+    </div>
+
+</form>
+
+<footer th:replace="~{/layout::footer}"></footer>
+<th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

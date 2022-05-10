@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Xem bài viết</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body th:object="${blog}">
+<h4 class="text-center h4 text-danger" th:text="${blog.title}"></h4>
+<h5 class="text-center h5 text-success" th:text="${blog.author}"></h5>
+<h6 class="text-center text-secondary" th:text="${blog.dateCreate}"></h6>
+<p class="text-primary text-center" th:text="${blog.content}"></p>
+<p class="text-primary text-center" th:text="${blog.category.name}"></p>
+<th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

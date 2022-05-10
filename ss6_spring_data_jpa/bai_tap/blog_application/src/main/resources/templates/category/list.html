@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body>
+<div th:replace="~{/layout::nav-bar}"></div>
+<p class="h4 text-primary text-center my-2">Danh sách blog</p>
+
+
+<div class="text-center my-3">
+    <a class="btn btn-secondary mx-auto" th:href="@{/}">Quay lại trang chính</a>
+    <a class="btn btn-secondary mx-auto" th:href="@{/category/add}">Tạo danh mục</a>
+</div>
+
+<table class="table table-bordered border-success w-75 mx-auto">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Category Id</th>
+        <th>Category name</th>
+
+        <th th:colspan="2">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category,status : ${categoryList}">
+        <td th:text="${status.index+1}"></td>
+        <td th:text="${category.id}"></td>
+        <td th:text="${category.name}"></td>
+        <td><a th:href="@{/category/edit/{id}(id=${category.id})}"><span>Edit</span></a></td>
+        <td><button type="button" th:attr="onclick=|deleteModal('${category.id}','${category.name}')|" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+            Delete
+        </button></td>
+
+        <!--        <a th:href="@{/delete/{id}(id=${blog.id})}"><span>Delete</span></a>-->
+    </tr>
+    </tbody>
+</table>
+
+<div style="height: 220px; width: 100%">
+</div>
+<footer th:replace="/layout::footer"></footer>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/category/delete/">
+                <input type="hidden" id="idModal" name="id">
+                <div class="modal-body">Bạn có chắc muốn xóa danh mục : <span id="categoryName"></span></div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Hủy thao tác</button>
+                    <button type="submit" class="btn btn-primary">Vẫn xóa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteModal(id,name){
+        document.getElementById("idModal").value = id;
+        document.getElementById("categoryName").innerText = name;
+    }
+</script>
+
+<th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>
