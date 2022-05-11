@@ -16,6 +16,7 @@ import vn.codegym.service.ICategoryService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BlogController {
@@ -62,7 +63,8 @@ public class BlogController {
     }
 
     @GetMapping("/delete")
-    public String deleteOne(@RequestParam Integer id,RedirectAttributes redirectAttributes){
+    public String deleteOne(@RequestParam Integer id, RedirectAttributes redirectAttributes){
+
         Blog blog =  this.service.findOne(id);
         if(blog==null){
             return "error111";

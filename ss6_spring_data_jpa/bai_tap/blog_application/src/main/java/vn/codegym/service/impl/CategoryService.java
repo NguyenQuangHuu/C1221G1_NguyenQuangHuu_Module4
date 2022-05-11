@@ -9,7 +9,7 @@ import vn.codegym.service.ICategoryService;
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements ICategoryService {
+public class CategoryService implements ICategoryService {
 
     @Autowired
     private ICategoryRepository iCategoryRepository;

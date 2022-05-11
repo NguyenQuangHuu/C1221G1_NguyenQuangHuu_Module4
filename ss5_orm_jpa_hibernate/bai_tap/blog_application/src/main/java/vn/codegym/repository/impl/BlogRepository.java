@@ -10,7 +10,7 @@ import javax.persistence.TypedQuery;
 import java.util.List;
 
 @Repository
-public class BlogRepositoryImpl implements IBlogRepository {
+public class BlogRepository implements IBlogRepository {
     @Autowired
     private BaseRepository baseRepository;
     @Override
