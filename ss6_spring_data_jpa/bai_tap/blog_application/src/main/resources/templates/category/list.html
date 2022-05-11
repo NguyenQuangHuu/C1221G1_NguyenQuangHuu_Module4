@@ -10,6 +10,12 @@
 <div th:replace="~{/layout::nav-bar}"></div>
 <p class="h4 text-primary text-center my-2">Danh sách blog</p>
 
+<form>
+<select name="sort">
+    <option value="0">Sắp xếp theo tiêu đề</option>
+    <option value="1">Sắp xếp theo id</option>
+</select>
+</form>
 
 <div class="text-center my-3">
     <a class="btn btn-secondary mx-auto" th:href="@{/}">Quay lại trang chính</a>

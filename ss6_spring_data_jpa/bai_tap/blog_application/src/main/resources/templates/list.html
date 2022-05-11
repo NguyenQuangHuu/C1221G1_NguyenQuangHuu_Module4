@@ -25,41 +25,73 @@
         <button class="btn btn-success" type="submit">Submit</button>
     </form>
 </div>
-<table class="table table-bordered border-success w-75 mx-auto min-vh-100">
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Id</th>
-        <th>Blog Title</th>
-        <th>Blog Content</th>
-        <th>Author</th>
-        <th>Posting Date</th>
-        <th>Category</th>
-        <th th:colspan="2">Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="blog,status : ${blogList}">
-        <td th:text="${status.index+1}"></td>
-        <td th:text="${blog.id}"></td>
-        <td ><a th:href="@{/view/{id}(id=${blog.id})}"><span th:text="${blog.title}"></span></a></td>
-        <td th:text="${blog.content}"></td>
-        <td th:text="${blog.author}"></td>
-        <td th:text="${blog.dateCreate}"></td>
-        <td th:text="${blog.category.name}"></td>
-        <td><a th:href="@{/edit/{id}(id=${blog.id})}"><span>Edit</span></a></td>
-        <td><button type="button" th:attr="onclick=|deleteModal('${blog.id}','${blog.title}','${blog.author}')|" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
-            Delete
-        </button></td>
+<div class="text-center w-25">
+    <form th:action="@{/}">
+    <select  class="form-select" name="sort">
+        <option value="0">Sắp xếp theo tiêu đề</option>
+        <option value="1">Sắp xếp theo id</option>
+    </select>
+        <input type="submit" value="Sắp xếp">
+    </form>
+</div>
+<!--<table class="table table-bordered border-success w-75 mx-auto min-vh-100">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>#</th>-->
+<!--        <th>Id</th>-->
+<!--        <th>Blog Title</th>-->
+<!--        <th>Blog Content</th>-->
+<!--        <th>Author</th>-->
+<!--        <th>Posting Date</th>-->
+<!--        <th>Category</th>-->
+<!--        <th th:colspan="2">Action</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="blog,status : ${blogList}">-->
+<!--        <td th:text="${status.index+1}"></td>-->
+<!--        <td th:text="${blog.id}"></td>-->
+<!--        <td ><a th:href="@{/view/{id}(id=${blog.id})}"><span th:text="${blog.title}"></span></a></td>-->
+<!--        <td th:text="${blog.content}"></td>-->
+<!--        <td th:text="${blog.author}"></td>-->
+<!--        <td th:text="${blog.dateCreate}"></td>-->
+<!--        <td th:text="${blog.category.name}"></td>-->
+<!--        <td><a th:href="@{/edit/{id}(id=${blog.id})}"><span>Edit</span></a></td>-->
+<!--        <td><button type="button" th:attr="onclick=|deleteModal('${blog.id}','${blog.title}','${blog.author}')|" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">-->
+<!--            Delete-->
+<!--        </button></td>-->
+<!--&lt;!&ndash;        <a th:href="@{/delete/{id}(id=${blog.id})}"><span>Delete</span></a>&ndash;&gt;-->
+<!--    </tr>-->
+    <div class="row mx-4">
+        <div class="col-3" th:each="blog:${blogList}">
+        <div class="card mx-2 my-2" >
+            <img src="https://mdbcdn.b-cdn.net/img/new/standard/nature/184.webp" class="card-img-top" alt="Fissure in Sandstone"/>
+            <div class="card-body">
+                Tiêu đề
+                <h5 class="card-title" th:text="${blog.title}"></h5>
+                <div>
+                    Nội dung:
+                    <p class="card-text text-truncate" th:text="${blog.content}"></p>
+                    Ngày tạo:<span th:text="${blog.dateCreate}"></span>
+                    <p>Danh mục:<span th:text="${blog.category.name}"></span></p>
 
-<!--        <a th:href="@{/delete/{id}(id=${blog.id})}"><span>Delete</span></a>-->
-    </tr>
-    </tbody>
-</table>
+                </div>
+                <a class="btn btn-secondary" th:href="@{/edit/{id}(id=${blog.id})}"><span>Edit</span></a>
+                <button type="button" th:attr="onclick=|deleteModal('${blog.id}','${blog.title}','${blog.author}')|" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">
+                    Delete
+                </button>
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+<!--    </tbody>-->
+<!--</table>-->
 <nav aria-label="..." >
     <ul class="pagination justify-content-center">
         <li class="page-item">
-            <a class="page-link text-primary" th:if="${blogList.hasPrevious()}" th:href="@{'/'(page=${blogList.number-1})}">Previous</a>
+            <a class="page-link text-primary" th:if="${blogList.hasPrevious()}" th:href="@{'/'(page=${blogList.number-1},sort=${sortValue})}">Previous</a>
         </li>
 <!--        <li class="page-item"><a class="page-link" href="#">1</a></li>-->
 <!--        <li class="page-item active" aria-current="page">-->
@@ -70,7 +102,7 @@
         <li class="page-item"><a class="page-link text-warning" th:text="'/  '+${blogList.getTotalPages()}"></a></li>
 
         <li class="page-item">
-            <a class="page-link text-success" th:if="${blogList.hasNext()}" th:href="@{'/'(page=${blogList.number+1})}" >Next</a>
+            <a class="page-link text-success" th:if="${blogList.hasNext()}" th:href="@{'/'(page=${blogList.number+1},sort=${sortValue})}">Next</a>
         </li>
     </ul>
 </nav>

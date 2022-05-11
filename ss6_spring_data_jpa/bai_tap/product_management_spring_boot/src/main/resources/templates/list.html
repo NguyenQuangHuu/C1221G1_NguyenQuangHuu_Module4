@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body>
+<div class="shadow-5-strong w-75 mx-auto mt-4 py-4 px-4">
+    <h4 class="text-success text-center m-4">Danh sách sản phẩm:</h4>
+    <form class="text-center"  th:method="get">
+        <div class="form-outline w-25 mx-auto my-2">
+            <input class="form-control" id="desc1" type="text" name="query"/>
+            <label class="form-label" for="desc1">Tìm kiếm theo tên sản phẩm</label>
+        </div>
+        <input class="btn btn-info my-4" type="submit" value="Tìm kiếm sản phẩm">
+    </form>
+    <table  class="table table-striped mx-auto w-75">
+        <thead >
+        <tr class="table-warning">
+
+            <th>ID</th>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Manufacturer</th>
+            <th>Type Product</th>
+            <th colspan="2">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="product: ${productList}">
+
+            <td th:text="${product.id}"></td>
+            <td ><a class="text-secondary" th:href="@{/detail/{id}(id=${product.id})}"><strong th:text="${product.name}"></strong></a></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.getDescription()}"></td>
+            <td th:text="${product.manufacturer}"></td>
+            <td th:text="${product.product.name}"></td>
+            <td ><a class="btn btn-secondary" th:href="@{/edit/{id}(id=${product.id})}">Edit</a></td>
+            <td>
+                <button th:attr="onclick=|deleteModal('${product.id}', '${product.name}')|" type="button" class="btn btn-danger" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">
+                Delete
+            </button>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination pagination-circle">
+            <li class="page-item">
+                <a class="page-link" th:if="${productList.hasPrevious()}" th:href="@{/products(page=${productList.number-1},query=${query})}">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" th:href="@{/products(page=${productList.number})}" th:text="${productList.number}"></a></li>
+
+            <li class="page-item">
+                <a class="page-link" th:if="${productList.hasNext()}" th:href="@{/products(page=${productList.number+1},query=${query})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="text-center" th:if="${message != null}">
+        <span class="text-light my-4 bg-danger rounded-pill" th:text="${message}"></span>
+    </div>
+    <div class="text-center">
+        <h5><a class="btn text-secondary mt-4" th:href="@{/create}">Thêm sản phẩm</a></h5>
+    </div>
+</div>
+
+
+    <!-- Button trigger modal -->
+<!--    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">-->
+<!--        Launch static backdrop modal-->
+<!--    </button>-->
+
+    <!-- Modal -->
+    <div
+            class="modal fade"
+            id="staticBackdrop"
+            data-mdb-backdrop="static"
+            data-mdb-keyboard="false"
+            tabindex="-1"
+            aria-labelledby="staticBackdropLabel"
+            aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Chức năng xóa sản phẩm</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/delete/}">
+                <input type="hidden" id="deleteId" name="id">
+                <div class="modal-body">Bạn xác nhận muốn xóa sản phẩm <span style="color: chocolate" id="deleteName"></span></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Hủy</button>
+                    <button type="submit" class="btn btn-primary">Vẫn xóa</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        function deleteModal(id,name){
+            document.getElementById("deleteId").value = id;
+            document.getElementById("deleteName").innerText = name;
+        }
+    </script>
+    <th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

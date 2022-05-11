@@ -26,9 +26,17 @@ public class BlogController {
     @Autowired
     private ICategoryService iCategoryService;
     @GetMapping("/")
-    public String homepage(Model model, @PageableDefault(value = 5) Pageable pageable, Sort sort){
-        Page<Blog> blogList = this.service.findAll(pageable);
-        model.addAttribute("blogList",blogList);
+    public String homepage(Model model, @PageableDefault(value = 8) Pageable pageable,@RequestParam Optional<String> keyword){
+        String sortString = "";
+        if(keyword.isPresent()){
+            String sortType = keyword.get();
+            Page<Blog> blogList = this.service.findAll(pageable);
+            model.addAttribute("blogList",blogList);
+            model.addAttribute("sortValue",sortType);
+        }else{
+            Page<Blog> blogList = this.service.findAll(pageable);
+            model.addAttribute("blogList",blogList);
+        }
         return "list";
     }
 
