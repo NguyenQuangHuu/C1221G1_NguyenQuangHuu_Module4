@@ -1,6 +1,6 @@
 package vn.codegym.dto;
 
-import org.hibernate.validator.internal.constraintvalidators.bv.EmailValidator;
+import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -100,7 +100,6 @@ public class UserDto implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
-        EmailValidator emailValidator = EmailValidator.get
         UserDto userDto = (UserDto) target;
         if("".equals(userDto.getFirstName())){
             errors.rejectValue("firstName","firstName.notBlank","NONNN");
