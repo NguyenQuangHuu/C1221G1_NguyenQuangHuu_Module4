@@ -10,8 +10,20 @@
     <h4 class="text-success text-center m-4">Danh sách sản phẩm:</h4>
     <form class="text-center"  th:method="get">
         <div class="form-outline w-25 mx-auto my-2">
-            <input class="form-control" id="desc1" type="text" name="query"/>
+            <input class="form-control" id="desc1" type="text" name="nameQuery"/>
             <label class="form-label" for="desc1">Tìm kiếm theo tên sản phẩm</label>
+        </div>
+
+        <div class="form-outline w-25 mx-auto my-2">
+            <input class="form-control" id="desc2" type="text" name="manufacturerQuery"/>
+            <label class="form-label" for="desc2">Tìm kiếm theo nhà sản xuất</label>
+        </div>
+
+        <div class="form-outline w-25 mx-auto my-2">
+            <select name="typeQuery" class="form-select">
+                <option value="" >--Chọn--</option>
+                <option th:each="type : ${type_product}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
         </div>
         <input class="btn btn-info my-4" type="submit" value="Tìm kiếm sản phẩm">
     </form>
@@ -52,12 +64,12 @@
     <nav class="d-flex justify-content-center">
         <ul class="pagination pagination-circle">
             <li class="page-item">
-                <a class="page-link" th:if="${productList.hasPrevious()}" th:href="@{/products(page=${productList.number-1},query=${query})}">Previous</a>
+                <a class="page-link" th:if="${productList.hasPrevious()}" th:href="@{/products(page=${productList.number-1},nameQuery=${nameQuery},manufacturerQuery=${manufacturerQuery},typeQuery=${typeQuery})}">Previous</a>
             </li>
             <li class="page-item active"><a class="page-link" th:href="@{/products(page=${productList.number})}" th:text="${productList.number}"></a></li>
 
             <li class="page-item">
-                <a class="page-link" th:if="${productList.hasNext()}" th:href="@{/products(page=${productList.number+1},query=${query})}">Next</a>
+                <a class="page-link" th:if="${productList.hasNext()}" th:href="@{/products(page=${productList.number+1},nameQuery=${nameQuery},manufacturerQuery=${manufacturerQuery},typeQuery=${typeQuery})}">Next</a>
             </li>
         </ul>
     </nav>

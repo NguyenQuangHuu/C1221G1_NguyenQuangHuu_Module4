@@ -9,5 +9,6 @@ import vn.codegym.util.ProductNotFoundException;
 import java.util.List;
 
 public interface IProductRepository extends JpaRepository<Product,Integer> {
-    Page<Product> getAllByNameContaining(String name, Pageable pageable);
+    Page<Product> findAllByNameContainingAndManufacturerContainingAndProduct_Id(String name,String manufacturer,Integer type, Pageable pageable);
+    Page<Product> findAllByNameContainingAndManufacturerContaining(String name,String manufacturer, Pageable pageable);
 }

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="w-75 mx-auto my-auto shadow-2-strong" th:object="${user}">
+    <div>
+        <p></p>
+        <span th:text="*{id}"></span>
+    </div>
+    <div>
+        <p></p>
+        <span th:text="*{lastName}"></span>
+    </div>
+    <div>
+        <p></p>
+        <span th:text="*{firstName}"></span>
+    </div>
+    <div>
+        <p></p>
+        <span th:text="*{phoneNumber}"></span>
+    </div>
+    <div>
+        <p></p>
+        <span th:text="*{email}"></span>
+    </div>
+    <div>
+        <p></p>
+        <span th:text="*{phoneNumber}"></span>
+    </div>
+    <div>
+        <p></p>
+        <span th:text="*{age}"></span>
+    </div>
+</div>
+</body>
+</html>

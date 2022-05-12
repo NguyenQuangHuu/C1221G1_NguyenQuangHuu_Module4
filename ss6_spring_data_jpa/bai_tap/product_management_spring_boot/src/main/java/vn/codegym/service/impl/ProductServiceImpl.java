@@ -35,8 +35,9 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Page<Product> findProductByName(String query, Pageable pageable) {
-        return this.repository.getAllByNameContaining(query,pageable);
+    public Page<Product> findProductByName(String nameQuery,String manufacturerQuery,String typeQuery, Pageable pageable) {
+        if(typeQuery.equals("")) return this.repository.findAllByNameContainingAndManufacturerContaining(nameQuery,manufacturerQuery,pageable);
+        else return this.repository.findAllByNameContainingAndManufacturerContainingAndProduct_Id(nameQuery,manufacturerQuery,Integer.parseInt(typeQuery),pageable);
     }
 
 

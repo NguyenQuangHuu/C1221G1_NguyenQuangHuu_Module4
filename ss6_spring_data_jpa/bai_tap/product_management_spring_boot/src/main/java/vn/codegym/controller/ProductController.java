@@ -36,11 +36,17 @@ public class ProductController {
 
     @GetMapping("/products")
     public String productList(Model model,@PageableDefault(value=5) Pageable pageable,
-                              @RequestParam Optional<String> query){
-        if(query.isPresent()){
-            String queryValue = query.orElse("");
-            model.addAttribute("query",queryValue);
-            Page<Product> products = this.service.findProductByName(queryValue,pageable);
+                              @RequestParam Optional<String> nameQuery,
+                              @RequestParam Optional<String> typeQuery,
+                              @RequestParam Optional<String> manufacturerQuery){
+        if(nameQuery.isPresent() || typeQuery.isPresent() || manufacturerQuery.isPresent()){
+            String nameValue = nameQuery.orElse("");
+            String typeValue = typeQuery.orElse("");
+            String manufacturerValue = manufacturerQuery.orElse("");
+            model.addAttribute("nameQuery",nameValue);
+            model.addAttribute("typeQuery",typeValue);
+            model.addAttribute("manufacturerQuery",manufacturerValue);
+            Page<Product> products = this.service.findProductByName(nameValue,manufacturerValue,typeValue,pageable);
             model.addAttribute("productList",products);
         }else{
             Page<Product> productList = this.service.getAllProduct(pageable);
@@ -123,25 +129,25 @@ public class ProductController {
     }
 
 
-    @GetMapping("/products/search")
-    public String searchProduct(@RequestParam("query")String query,Model model,@PageableDefault(value=4) Pageable pageable){
-
-        if("".equals(query)){
-            return "redirect:/products";
-        }
-
-        Page<Product> products = this.service.findProductByName(query,pageable);
-        if(products.isEmpty()){
-//            redirectAttributes.addFlashAttribute("message","Không tìm thấy sản phẩm với tên này");
-//            redirectAttributes.addAttribute("productList",products);
-            model.addAttribute("productList",products);
-            model.addAttribute("message","Không tìm thấy sản phẩm bạn muốn tìm");
-        }else{
-            model.addAttribute("productList",products);
-            model.addAttribute("query",query);
-            model.addAttribute("message","Đã tìm thấy sản phẩm bạn muốn tìm");
-        }
-        return "list";
-    }
+//    @GetMapping("/products/search")
+//    public String searchProduct(@RequestParam("query")String query,Model model,@PageableDefault(value=4) Pageable pageable){
+//
+//        if("".equals(query)){
+//            return "redirect:/products";
+//        }
+//
+//        Page<Product> products = this.service.findProductByName(query,pageable);
+//        if(products.isEmpty()){
+////            redirectAttributes.addFlashAttribute("message","Không tìm thấy sản phẩm với tên này");
+////            redirectAttributes.addAttribute("productList",products);
+//            model.addAttribute("productList",products);
+//            model.addAttribute("message","Không tìm thấy sản phẩm bạn muốn tìm");
+//        }else{
+//            model.addAttribute("productList",products);
+//            model.addAttribute("query",query);
+//            model.addAttribute("message","Đã tìm thấy sản phẩm bạn muốn tìm");
+//        }
+//        return "list";
+//    }
 
 }

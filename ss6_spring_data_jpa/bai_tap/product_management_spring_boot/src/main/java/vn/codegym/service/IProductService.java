@@ -18,5 +18,5 @@ public interface IProductService {
 
     void delete(Product product) throws ProductNotFoundException;
 
-    Page<Product> findProductByName(String query,Pageable pageable);
+    Page<Product> findProductByName(String query,String manufacturerQuery,String type,Pageable pageable);
 }
