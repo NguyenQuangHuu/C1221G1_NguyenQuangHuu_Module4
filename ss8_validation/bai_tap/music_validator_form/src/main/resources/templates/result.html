@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body>
+<div th:object="${song}" class="card text-center w-50 mx-auto h-100 my-auto" style="background-color:#fdeded;">
+    <form th:action="@{/edit}" method="get">
+    <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+        <img src="https://mdbootstrap.com/img/new/standard/nature/111.webp" class="img-fluid" />
+        <a href="#!">
+            <div class="mask" style="background-color: rgba(251, 251, 251, 0.15)"></div>
+        </a>
+    </div>
+    <div><input type="text" th:field="${song.id}"></div>
+    <div class="card-header" th:text="${song.singer}"></div>
+    <div class="card-body">
+        <h5 class="card-title" th:text="${song.name}"></h5>
+        <p class="card-text" th:text="${song.kindOfMusic}">
+        </p>
+        <a th:href="@{/edit/{id}(id=${song.id})}" class="btn btn-primary">Chỉnh sửa</a>
+    </div>
+    <div class="card-footer" th:text="${song.uploadDate}"></div>
+    </form>
+</div>
+<th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>
