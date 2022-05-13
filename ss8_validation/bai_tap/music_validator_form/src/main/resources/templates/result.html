@@ -20,10 +20,25 @@
         <h5 class="card-title" th:text="${song.name}"></h5>
         <p class="card-text" th:text="${song.kindOfMusic}">
         </p>
+
         <a th:href="@{/edit/{id}(id=${song.id})}" class="btn btn-primary">Chỉnh sửa</a>
     </div>
     <div class="card-footer" th:text="${song.uploadDate}"></div>
     </form>
+    <div class="w-50">
+        <audio controls>
+            <source th:src="@{'/song/'+${song.getPathFile()}}" type="audio/mpeg">
+
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+<!--    <audio controls>-->
+<!--        <source th:src="'\resources\static\song\\'+${song.getPathFile()}" type="audio/mpeg">-->
+
+
+<!--        Your browser does not support the audio element.-->
+<!--    </audio>-->
 </div>
 <th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
 </body>

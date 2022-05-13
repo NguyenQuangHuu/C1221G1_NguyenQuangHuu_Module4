@@ -2,15 +2,13 @@ package vn.codegym.controller;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import vn.codegym.dto.SongDto;
 import vn.codegym.model.Song;
@@ -24,6 +22,9 @@ import java.time.format.DateTimeFormatter;
 @Controller
 public class SongController {
 
+    @Value("${file-upload}")
+    private String fileUpload;
+
     @Autowired
     private ISongService songService;
 
@@ -34,16 +35,16 @@ public class SongController {
     }
 
     @PostMapping("/create")
-    public String musicUploadSubmit(@ModelAttribute @Validated SongDto songDto, BindingResult bindingResult, Model model){
+    public String musicUploadSubmit(@ModelAttribute @Validated SongDto songDto, BindingResult bindingResult,
+                                    @RequestParam MultipartFile file,
+                                    Model model){
         new SongDto().validate(songDto,bindingResult);
-//        MultipartFile multipartFile = songDto.getFilePath();
-//        String filePath = multipartFile.getOriginalFilename();
-
-//        try {
-//            FileCopyUtils.copy(songDto.getFilePath().getBytes(),new File("\\resources\\static\\"+filePath));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        String filePath = file.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(file.getBytes(),new File(fileUpload+filePath));
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
         if(bindingResult.hasFieldErrors()){
             return "create";
         }else{
@@ -53,7 +54,7 @@ public class SongController {
             songDto.setUploadDate(uploadDate);
             Song song = new Song();
             BeanUtils.copyProperties(songDto,song);
-//        song.setPathFile(filePath);
+            song.setPathFile(filePath);
             this.songService.save(song);
             Song lastSong = this.songService.getLast();
             model.addAttribute("song",lastSong);
@@ -73,11 +74,18 @@ public class SongController {
     }
 
     @PostMapping("/edit")
-    public String editSubmit(@ModelAttribute SongDto songDto){
-        Song song = new Song();
-        BeanUtils.copyProperties(songDto,song);
-        this.songService.save(song);
-        return "redirect:/create";
+    public String editSubmit(@ModelAttribute @Validated SongDto songDto,BindingResult bindingResult){
+        new SongDto().validate(songDto,bindingResult);
+
+        if(bindingResult.hasFieldErrors()){
+            return "edit";
+        }else{
+            Song song = new Song();
+            BeanUtils.copyProperties(songDto,song);
+            this.songService.save(song);
+            return "redirect:/create";
+        }
+
     }
 
 }

@@ -14,7 +14,7 @@ public class Song {
     @Column(columnDefinition = "DATE")
     private String uploadDate;
 
-//    private String pathFile;
+    private String pathFile;
 
     public Song() {
     }
@@ -26,13 +26,13 @@ public class Song {
         this.uploadDate = uploadDate;
     }
 
-//    public Song(String name, String singer, String kindOfMusic, String uploadDate, String pathFile) {
-//        this.name = name;
-//        this.singer = singer;
-//        this.kindOfMusic = kindOfMusic;
-//        this.uploadDate = uploadDate;
-//        this.pathFile = pathFile;
-//    }
+    public Song(String name, String singer, String kindOfMusic, String uploadDate, String pathFile) {
+        this.name = name;
+        this.singer = singer;
+        this.kindOfMusic = kindOfMusic;
+        this.uploadDate = uploadDate;
+        this.pathFile = pathFile;
+    }
 
     public Integer getId() {
         return id;
@@ -74,11 +74,11 @@ public class Song {
         this.uploadDate = uploadDate;
     }
 
-//    public String getPathFile() {
-//        return pathFile;
-//    }
-//
-//    public void setPathFile(String pathFile) {
-//        this.pathFile = pathFile;
-//    }
+    public String getPathFile() {
+        return pathFile;
+    }
+
+    public void setPathFile(String pathFile) {
+        this.pathFile = pathFile;
+    }
 }
