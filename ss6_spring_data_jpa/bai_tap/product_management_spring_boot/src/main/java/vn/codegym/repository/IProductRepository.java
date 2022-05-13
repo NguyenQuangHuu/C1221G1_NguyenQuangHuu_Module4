@@ -11,4 +11,6 @@ import java.util.List;
 public interface IProductRepository extends JpaRepository<Product,Integer> {
     Page<Product> findAllByNameContainingAndManufacturerContainingAndProduct_Id(String name,String manufacturer,Integer type, Pageable pageable);
     Page<Product> findAllByNameContainingAndManufacturerContaining(String name,String manufacturer, Pageable pageable);
+
+    Product getTopByOrderByIdDesc();
 }

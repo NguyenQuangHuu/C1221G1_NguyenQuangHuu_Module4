@@ -6,7 +6,7 @@
     <th:block th:replace="~{/layout :: link-bootstrap}"></th:block>
 </head>
 <body>
-<form th:object="${product}" th:method="post" th:action="@{/edit}">
+<form th:object="${productDto}" th:method="post" th:action="@{/edit}">
     <fieldset class="w-75 mx-auto">
         <legend class="text-center my-4"> <span class="text-secondary">Điền thông tin mới của sản phẩm</span></legend>
         <div>
@@ -17,17 +17,29 @@
             <input class="form-control" id="name1" type="text" th:field="*{name}" th:value="*{name}"/>
             <label class="form-label" for="name1">Tên sản phẩm</label>
         </div>
+        <div class="w-25 mx-auto">
+            <p class="text-warning" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        </div>
         <div class="form-outline w-25 mx-auto my-4">
             <input class="form-control" id="price1" type="text" th:field="*{price}" th:value="*{price}"/>
             <label class="form-label" for="price1">Giá sản phẩm</label>
+        </div>
+        <div class="w-25 mx-auto">
+            <p class="text-warning" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></p>
         </div>
         <div class="form-outline w-25 mx-auto my-4">
             <input class="form-control" id="desc1" type="text" th:field="*{description}" th:value="*{description}"/>
             <label class="form-label" for="desc1">Miêu tả về sản phẩm</label>
         </div>
+        <div class="w-25 mx-auto">
+            <p class="text-warning" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></p>
+        </div>
         <div class="form-outline w-25 mx-auto my-4">
             <input class="form-control" id="manu1" type="text" th:field="*{manufacturer}" th:value="*{manufacturer}"/>
             <label class="form-label" for="manu1">Nhà sản xuất</label>
+        </div>
+        <div class="w-25 mx-auto">
+            <p class="text-warning" th:if="${#fields.hasErrors('manufacturer')}" th:errors="*{manufacturer}"></p>
         </div>
         <div class="form-outline w-25 mx-auto my-4">
             <select class="form-select" th:field="*{product}">

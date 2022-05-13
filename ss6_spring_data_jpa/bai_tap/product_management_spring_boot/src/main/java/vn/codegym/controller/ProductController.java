@@ -1,14 +1,18 @@
 package vn.codegym.controller;
 
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import vn.codegym.dto.ProductDto;
 import vn.codegym.model.Product;
 import vn.codegym.model.TypeProduct;
 import vn.codegym.service.IProductService;
@@ -20,8 +24,6 @@ import java.util.Optional;
 
 @Controller
 public class ProductController {
-
-
 
     @Autowired
     private IProductService service;
@@ -52,16 +54,13 @@ public class ProductController {
             Page<Product> productList = this.service.getAllProduct(pageable);
             model.addAttribute("productList",productList);
         }
-
-
         return "list";
     }
 
     @GetMapping("/create")
     public String createProductForm(Model model){
         try{
-            model.addAttribute("product",new Product());
-
+            model.addAttribute("productDto",new ProductDto());
         }catch (NumberFormatException e){
             e.getMessage();
         }
@@ -70,28 +69,51 @@ public class ProductController {
 
 
     @PostMapping("/create")
-    public String createProduct(@ModelAttribute("product") Product product, RedirectAttributes redirectAttributes){
-        this.service.save(product);
-        redirectAttributes.addFlashAttribute("message","Thêm mới thành công");
-        return "redirect:/products";
+    public String createProduct(@ModelAttribute("productDto") @Validated ProductDto productDto, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+//        if(productDto.getPrice() == null){
+//            productDto.setPrice(-1.0);
+//        }
+        new ProductDto().validate(productDto,bindingResult);
+        if(bindingResult.hasFieldErrors()){
+            return "/create";
+        }else{
+            Product product = this.service.getLastProduct();
+            productDto.setCode("product-"+product.getId());
+            Product productCopy = new Product();
+            BeanUtils.copyProperties(productDto,productCopy);
+            this.service.save(productCopy);
+            redirectAttributes.addFlashAttribute("message","Thêm mới thành công");
+            return "redirect:/products";
+        }
     }
 
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Integer id,Model model){
         Product product = this.service.findById(id);
+
         if(product == null){
             return "error";
         }else{
-            model.addAttribute("product",product);
+            ProductDto productDto = new ProductDto();
+            BeanUtils.copyProperties(product,productDto);
+            model.addAttribute("productDto",productDto);
             return "edit";
         }
     }
 
     @PostMapping("/edit")
-    public String editProduct(@ModelAttribute("product") Product product,RedirectAttributes redirectAttributes){
-            this.service.save(product);
-            redirectAttributes.addFlashAttribute("message","Chỉnh sửa thành công");
-            return "redirect:/products";
+    public String editProduct(@ModelAttribute("productDto") @Validated ProductDto productDto,BindingResult bindingResult,RedirectAttributes redirectAttributes){
+            new ProductDto().validate(productDto,bindingResult);
+            if(bindingResult.hasErrors()){
+                return "/edit";
+            }else{
+                Product product = new Product();
+                BeanUtils.copyProperties(productDto,product);
+                this.service.save(product);
+                redirectAttributes.addFlashAttribute("message","Chỉnh sửa thành công");
+                return "redirect:/products";
+            }
+
     }
 
     @GetMapping("/delete/")

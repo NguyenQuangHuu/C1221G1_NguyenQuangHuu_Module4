@@ -40,6 +40,10 @@ public class ProductServiceImpl implements IProductService {
         else return this.repository.findAllByNameContainingAndManufacturerContainingAndProduct_Id(nameQuery,manufacturerQuery,Integer.parseInt(typeQuery),pageable);
     }
 
+    @Override
+    public Product getLastProduct() {
+        return this.repository.getTopByOrderByIdDesc();
+    }
 
 
 }
