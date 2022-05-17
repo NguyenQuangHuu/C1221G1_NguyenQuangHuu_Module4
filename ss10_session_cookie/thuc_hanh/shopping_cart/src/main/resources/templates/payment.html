@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h4>Thanh toán thành công với số tiền <span th:text="${money}"></span></h4>
+Đơn hàng của bạn sẽ được gửi đi sau ít ngày:
+Chi tiết đơn đặt hàng của bạn:
+<div class="card" th:each="product : ${cart.products}">
+    <p th:text="${product.getKey().name}"></p>
+    <p th:text="${product.getKey().price}"></p>
+    <div>
+        Số lượng:
+        <p th:text="${product.getValue()}"></p>
+    </div>
+</div>
+
+</body>
+</html>
