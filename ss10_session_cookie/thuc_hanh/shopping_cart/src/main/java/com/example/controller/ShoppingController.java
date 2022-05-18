@@ -33,6 +33,13 @@ public class ShoppingController {
         return "list";
     }
 
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable Integer id,Model model){
+        Product product = this.productService.findById(id);
+        model.addAttribute("product",product);
+        return "detail";
+    }
+
     @GetMapping("/add-to-cart/{id}")
     public String addToCart(@PathVariable Integer id,
                             @SessionAttribute("cart") CartDto cart){

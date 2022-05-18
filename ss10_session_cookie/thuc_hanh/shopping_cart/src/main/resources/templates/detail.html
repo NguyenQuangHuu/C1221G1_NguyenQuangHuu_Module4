@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/layout::link-bootstrap}"></th:block>
+</head>
+<body>
+<h5>Chi tieets  Controller</h5>
+<a href="/shopping-cart">Giỏ hàng Controller</a>
+<div class="row mx-4">
+    <div class="card-group col-8 mx-auto" th:object="${product}">
+        <div class="card m-4" >
+            <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/041.webp" class="card-img-top" alt="Hollywood Sign on The Hill"/>
+
+            <div class="card-body">
+                <h4 class="card-title text-truncate">Tên sản phẩm :
+                    <span class="text-secondary" th:text="${product.name}"></span>
+                </h4>
+                <p class="card-text text-warning" >
+                    Giá
+                    <span th:text="${product.price}"></span>
+                </p>
+                <p class="card-text text-warning">
+                    Mô tả sản phẩm
+                    <small class="text-success" th:text="${product.description}"></small>
+                </p>
+                <p class="card-text text-danger">Số lượng còn lại : <span class="text-secondary" th:text="${product.quantity}"></span> quyển</p>
+
+                <div class="card-footer px-0">
+                    <a class="btn btn-success mx-4" th:href="@{/detail/{id}(id=${product.id})}">Xem Sản Phẩm</a>
+                    <a class="btn btn-info mx-4" th:href="@{/add-to-cart/{id}(id=${product.id})}">Thêm vào giỏ hàng</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:replace="~{/layout::js-mdbootstrap}"></th:block>
+
+</body>
+</html>
