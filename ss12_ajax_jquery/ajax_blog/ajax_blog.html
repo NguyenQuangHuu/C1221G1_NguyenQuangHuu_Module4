@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+<input id="testInput" type="text">
+<input id="testSubmit" type="submit">
+<table border="1">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Author</th>
+        <th>Date Created</th>
+        <th>Category</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody id="tableData">
+    </tbody>
+</table>
+<div>
+    <button id="loadMore">Load More</button>
+</div>
+<div id="search"></div>
+<script src="jquery/jquery-3.6.0.min.js"></script>
+<script>
+
+    //Chạy sau khi tài liệu đã sẵn sàng
+    $(document).ready(function () {
+        //gọi hàm để lấy tất cả dữ liệu
+        let currentPage = 0 ;
+        initData(currentPage);
+        // hàm để lấy dữ liệu trong server
+
+        function initData(current){
+
+            let initData = "";
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "GET", //GET, DELETE, PUT...
+                url: "http://localhost:8080/blog/?page="+current,
+                success: function (datas) {
+
+                    for (let data of datas.content) {
+                        initData += `
+                                <tr>
+                                    <td>${data.id}</td>
+                                    <td>${data.title}</td>
+                                    <td>${data.content}</td>
+                                    <td>${data.author}</td>
+                                    <td>${data.dateCreate}</td>
+                                    <td>${data.category.name}</td>
+                                    <td>
+                                        <a href="#">Update</a>
+                                        <a href="#">Delete</a>
+                                    </td>
+                                </tr>
+                            `;
+                    }
+                    $("#tableData").append(initData);
+                },
+                error: function (resultError) {
+
+                }
+            });
+        }
+
+        //click tìm kiếm sẽ chạy hàm này theo value
+        $("#testInput").keyup(
+            function () {
+                let search = $("#testInput").val();
+                let readData = "";
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "GET", //GET, DELETE, PUT...
+                    url: "http://localhost:8080/blog/search?name=" + search,
+                    success: function (datas) {
+
+                        for (let data of datas.content) {
+                            readData += `
+                                <tr>
+                                    <td>${data.id}</td>
+                                    <td>${data.title}</td>
+                                    <td>${data.content}</td>
+                                    <td>${data.author}</td>
+                                    <td>${data.dateCreate}</td>
+                                    <td>${data.category.name}</td>
+                                    <td>
+                                        <a href="#">Update</a>
+                                        <a href="#">Delete</a>
+                                    </td>
+                                </tr>
+                            `;
+                        }
+                        $("#tableData").html(readData);
+                    },
+                    error: function (resultError) {
+
+                    }
+                });
+            }
+        );
+
+        $("#loadMore").click(function(){
+            initData(++currentPage);
+        });
+
+        // Viết hàm loadmore
+
+
+
+    });
+</script>
+</body>
+</html>

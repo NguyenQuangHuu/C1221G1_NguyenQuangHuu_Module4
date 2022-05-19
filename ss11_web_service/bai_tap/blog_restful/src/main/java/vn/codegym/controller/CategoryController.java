@@ -17,7 +17,7 @@ import vn.codegym.service.IBlogService;
 import vn.codegym.service.ICategoryService;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/category")
 public class CategoryController {

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<input type="text" id="producer">
+<input type="text" id="phone_model">
+<input type="text" id="phone_price">
+<input type="submit" id="submitEdit" value="Thêm mới">
+<script src="jquery/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#submitEdit").click(function(){
+            let producerValue = $("#producer").val();
+            let phone_model = $("#phone_model").val();
+            let phone_price = $("#phone_price").val();
+            let phoneObj = {
+                id : 1,
+                producer : producerValue,
+                model : phone_model,
+                price : phone_price,
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type: "PATCH", //GET, DELETE, PUT...
+                url: "http://localhost:8080/phone/edit/",
+                data: JSON.stringify(phoneObj),
+                success: function(resultSuccess){
+                    console.log(resultSuccess);
+                },
+                error: function(resultError) {
+                }
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

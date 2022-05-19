@@ -21,7 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/blog")
 public class BlogController {
@@ -29,7 +29,7 @@ public class BlogController {
     private IBlogService service;
 
     @GetMapping("/")
-    public ResponseEntity<Page<Blog>> homepage(@PageableDefault(value = 10) Pageable pageable){
+    public ResponseEntity<Page<Blog>> homepage(@PageableDefault(value = 2) Pageable pageable){
             Page<Blog> blogList = this.service.findAll(pageable);
         return new ResponseEntity<>(blogList, HttpStatus.OK);
     }
@@ -81,12 +81,12 @@ public class BlogController {
 
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Blog>> searchBlog(@RequestParam("name") String name,Pageable pageable){
-        Page<Blog> blogs = this.service.findAll(pageable);
-        if("".equals(name)){
+    public ResponseEntity<Page<Blog>> searchBlog(@RequestParam("name") Optional<String> name,@PageableDefault(value = 2) Pageable pageable){
+        if(!name.isPresent()){
+            Page<Blog> blogs = this.service.findAll(pageable);
             return new ResponseEntity<>(blogs,HttpStatus.OK);
         }
-        Page<Blog> blogSearch = this.service.findByName(name,pageable);
+        Page<Blog> blogSearch = this.service.findByName(name.get(),pageable);
 
         return new ResponseEntity<>(blogSearch,HttpStatus.OK);
     }

@@ -2,14 +2,12 @@ package vn.codegym;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
 
 @SpringBootApplication
-public class BlogRestfulApplication {
+public class PhoneManagementApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BlogRestfulApplication.class, args);
+        SpringApplication.run(PhoneManagementApplication.class, args);
     }
 
 }
