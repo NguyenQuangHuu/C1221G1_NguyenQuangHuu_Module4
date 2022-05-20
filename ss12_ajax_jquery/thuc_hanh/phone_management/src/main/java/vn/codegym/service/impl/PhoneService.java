@@ -6,6 +6,7 @@ import vn.codegym.model.Phone;
 import vn.codegym.repository.IPhoneRepository;
 import vn.codegym.service.IPhoneService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -13,7 +14,7 @@ public class PhoneService implements IPhoneService {
     @Autowired
     private IPhoneRepository iPhoneRepository;
     @Override
-    public Iterable<Phone> findAll() {
+    public List<Phone> findAll() {
         return iPhoneRepository.findAll();
     }
 

@@ -8,7 +8,9 @@ import org.springframework.web.servlet.ModelAndView;
 import vn.codegym.model.Phone;
 import vn.codegym.service.IPhoneService;
 
+import java.util.List;
 import java.util.Optional;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/phone")
@@ -16,16 +18,15 @@ public class PhoneController {
     @Autowired
     private IPhoneService iPhoneService;
 
-    @PostMapping
+    @PostMapping("/new")
     public ResponseEntity<Phone> createPhone(@RequestBody Phone phone){
         return new ResponseEntity<>(this.iPhoneService.save(phone),HttpStatus.CREATED);
     }
 
-    @GetMapping("/list")
-    public ModelAndView getAllSmartphonePage() {
-        ModelAndView modelAndView = new ModelAndView("/phones/list");
-        modelAndView.addObject("smartphones", iPhoneService.findAll());
-        return modelAndView;
+    @GetMapping("/list/")
+    public ResponseEntity<List<Phone>> getAllSmartphonePage() {
+        List<Phone> phones =  iPhoneService.findAll();
+        return new ResponseEntity<>(phones,HttpStatus.OK);
     }
 
     @GetMapping("/edit/{id}")
@@ -33,25 +34,21 @@ public class PhoneController {
         return new ResponseEntity<>(this.iPhoneService.findById(id).get(),HttpStatus.OK);
     }
 
-    @PatchMapping("/edit/")
+    @PatchMapping("/edit")
     public ResponseEntity<Void> editSubmit(@RequestBody Phone phone){
         this.iPhoneService.save(phone);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity<Iterable<Phone>> allPhones() {
-        return new ResponseEntity<>(iPhoneService.findAll(), HttpStatus.OK);
-    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Phone> deleteSmartphone(@PathVariable Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteSmartphone(@PathVariable Long id) {
         Optional<Phone> smartphoneOptional = iPhoneService.findById(id);
         if (!smartphoneOptional.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         iPhoneService.remove(id);
-        return new ResponseEntity<>(smartphoneOptional.get(), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

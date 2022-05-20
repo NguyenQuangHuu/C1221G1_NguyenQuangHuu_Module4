@@ -2,10 +2,11 @@ package vn.codegym.service;
 
 import vn.codegym.model.Phone;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IPhoneService {
-    Iterable<Phone> findAll();
+    List<Phone> findAll();
 
     Optional<Phone> findById(Long id);
 
