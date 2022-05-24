@@ -10,8 +10,7 @@ public class Account {
 
     private String password;
 
-    @OneToOne(mappedBy = "account")
-    private Employee employee;
+
 
     @OneToMany(mappedBy = "account")
     private List<AccountRole> accountRoleList;

@@ -9,6 +9,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String code;
     private String name;
 
     @Column(columnDefinition = "DATE")
@@ -20,9 +21,9 @@ public class Employee {
     private String email;
     private String address;
 
-    @OneToOne
-    @JoinColumn(name="account",referencedColumnName = "username")
-    private Account account;
+//    @OneToOne
+//    @JoinColumn(name="account",referencedColumnName = "username")
+//    private Account account;
 
 
     @ManyToOne
@@ -40,7 +41,8 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String birthday, Integer gender, String card, Double salary, String phone, String email, String address, Education education, Division division, Position position) {
+    public Employee(String code, String name, String birthday, Integer gender, String card, Double salary, String phone, String email, String address, Education education, Division division, Position position) {
+        this.code = code;
         this.name = name;
         this.birthday = birthday;
         this.gender = gender;
@@ -100,6 +102,14 @@ public class Employee {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getPhone() {

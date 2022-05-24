@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/customers/layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{/customers/layout::carousel}"></div>
+    <!-- Tab content -->
+
+    <h4 class="text-secondary text-center my-2">Danh sách Dịch Vụ</h4>
+    <a href="/service/new" class="btn btn-detail">Thêm dịch vụ</a>
+    <form method="get">
+<!--        <div class="row">-->
+
+<!--            <div class="form-outline my-2 col-3 mx-3">-->
+<!--                <input type="text" id="searchName" class="form-control" name="nameQuery"/>-->
+<!--                <label class="form-label" for="searchName">Tìm kiếm theo tên</label>-->
+<!--            </div>-->
+<!--            <div class="form-outline my-2 col-3 me-2">-->
+<!--                <input type="text" id="searchPhone" class="form-control" name="phoneQuery"/>-->
+<!--                <label class="form-label" for="searchPhone">Tìm kiếm theo số điện thoại</label>-->
+<!--            </div>-->
+
+<!--            <div class="form-outline my-2 col-3 mx-2">-->
+<!--                <select id="searchType" class="form-select" name="typeQuery">-->
+<!--                    <option value="">&#45;&#45;Chọn&#45;&#45;</option>-->
+<!--                    <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--            <input type="submit" id="searchSubmit" value="tìm kiếm" class="btn btn-secondary col-2 my-2">-->
+
+<!--        </div>-->
+    </form>
+    <div class="container-fluid my-4">
+
+
+    <div class="row">
+        <div class="col-6" th:each="facility : ${facilityPage}">
+            <div class="card mb-3 mx-auto" style="max-width: 600px;">
+                <div class="row g-2">
+                    <div class="col-4">
+                        <img
+                                src="https://mdbcdn.b-cdn.net/wp-content/uploads/2020/06/vertical.webp"
+                                alt="Trendy Pants and Shoes"
+                                class="img-fluid rounded-start"
+                        />
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body py-1">
+                            <h5 class="card-title" th:text="${facility.name}"></h5>
+                            <p class="card-text mb-2" >
+                                Tiện nghi đi kèm:
+                                <span th:text="${facility.descriptionConvenience}"></span>
+                            </p>
+                            <p class="card-text mb-2">
+                                Chi phí thuê dịch vụ:
+                                <small class="text-muted" th:text="${facility.cost}"></small>
+                            </p>
+                            <p class="card-text mb-2">
+                                Mã dịch vụ:
+                                <small class="text-muted" th:text="${facility.code}"></small>
+                            </p>
+                            <p class="card-text mb-2">
+                                Diện tích sử dụng:
+                                <small class="text-muted" th:text="${facility.area}"></small>
+                            </p>
+                            <p class="card-text mb-2">
+                                Diện tích hồ bơi:
+                                <small class="text-muted" th:if="${facility.poolArea != null}" th:text="${facility.poolArea}"></small>
+                            </p>
+                            <p class="card-text mb-2">
+                                Số tầng:
+                                <small class="text-muted" th:if="${facility.floors != null}" th:text="${facility.floors}"></small>
+                            </p>
+                        </div>
+                        <div class="card-footer py-1">
+                            <a class="btn btn-outline-detail" href="">Chi tiết</a>
+                            <a class="btn btn-outline-info" href="">Thuê</a>
+                            <a class="btn btn-outline-primary" href="">Mua</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+<!--    <nav class="d-flex justify-content-center">-->
+<!--        <ul class="pagination pagination-circle">-->
+<!--            <li class="page-item">-->
+<!--                <a class="page-link" th:if="${customers.hasPrevious()}" th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch})}">Previous</a>-->
+<!--            </li>-->
+<!--            <li class="page-item active"><a class="page-link" th:href="@{/customers/(page=${customers.number})}" th:text="${customers.number+1}"></a></li>-->
+
+<!--            <li class="page-item"><a class="page-link" th:if="${customers.number < customers.getTotalPages()-2 }" th:text="..."></a></li>-->
+
+<!--            <li class="page-item"><a class="page-link" th:if="${!customers.isLast()}" th:text="${customers.totalPages}"></a></li>-->
+
+<!--            <li class="page-item">-->
+<!--                <a class="page-link" th:if="${customers.hasNext()}" th:href="@{/customers/(page=${customers.number+1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch})}">Next</a>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </nav>-->
+</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<!--<div class="modal modal-side modal-top-left fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="exampleModalLabel">WARNING</h5>-->
+<!--                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <form action="/customers/delete" method="get">-->
+<!--                <input id="idDelete" type="hidden" name="id">-->
+
+<!--                <div class="modal-body">Are you sure you want to delete this customer with name  <span class="text-danger" id="nameDelete"></span> !</div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cancel</button>-->
+<!--                    <button type="submit" class="btn btn-primary">OK!</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script>-->
+<!--    function deleteModal(id,name){-->
+<!--        $("#idDelete").val(id);-->
+<!--        $("#nameDelete").text(name);-->
+<!--    }-->
+<!--</script>-->
+<div th:replace="~{customers/layout::footer}"></div>
+<th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

@@ -1,4 +1,7 @@
 package vn.codegym.repository;
 
-public interface IFacilityRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import vn.codegym.model.Facility;
+
+public interface IFacilityRepository extends JpaRepository<Facility,Integer> {
 }

@@ -19,4 +19,28 @@ public class EmployeeService implements IEmployeeService {
     public Page<Employee> findAll(Pageable pageable) {
         return this.iEmployeeRepository.findAll(pageable);
     }
+
+    @Override
+    public Employee findById(Integer id) {
+        return this.iEmployeeRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void save(Employee employee) {
+        this.iEmployeeRepository.save(employee);
+    }
+
+    @Override
+    public void remove(Employee employee) {
+        this.iEmployeeRepository.delete(employee);
+    }
+
+    @Override
+    public Page<Employee> findAllByNameAndPhoneAndDivision(String name, String phone, String division, Pageable pageable) {
+        if(division.equals("")){
+            return this.iEmployeeRepository.findAllByNameContainingAndPhoneContaining(name,phone,pageable);
+        }else{
+            return this.iEmployeeRepository.findAllByNameContainingAndPhoneContainingAndDivision_Id(name,phone,Integer.parseInt(division),pageable);
+        }
+    }
 }

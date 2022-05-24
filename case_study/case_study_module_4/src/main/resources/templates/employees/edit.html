@@ -1,0 +1,125 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/customers/layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <h4 class="text-center text-primary my-4">Thông tin nhân viên</h4>
+    <form class="container mx-auto" th:object="${employeeDto}" method="post" action="/employees/update">
+        <input type="hidden" th:field="*{id}">
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="code" class="form-control" th:field="*{code}"/>
+            <label class="form-label" for="code">Mã nhân viên:</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="name" class="form-control" th:field="*{name}"/>
+            <label class="form-label" for="name">Họ tên :</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="email" class="form-control" th:field="*{email}"/>
+            <label class="form-label" for="email">Email :</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="date" id="dob" class="form-control" th:field="*{birthday}"/>
+            <label class="form-label" for="dob">Ngày tháng năm sinh</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('birthday')}" th:errors="*{birthday}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="card" class="form-control" th:field="*{card}"/>
+            <label class="form-label" for="card">Số chứng minh thư</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('card')}" th:errors="*{card}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="phone" class="form-control" th:field="*{phone}"/>
+            <label class="form-label" for="phone">Số điện thoại liên hệ</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="address" class="form-control" th:field="*{address}"/>
+            <label class="form-label" for="phone">Địa chỉ liên hệ</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" class="form-control" th:field="*{salary}"/>
+            <label class="form-label" for="phone">Mức lương đề xuất</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <select id="gender" class="form-select" th:field="*{gender}">
+                <option value="">--Giới tính--</option>
+                <option value="0">Nữ</option>
+                <option value="1">Nam</option>
+            </select>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto" >
+            <select id="typeCustomer"  class="form-select" th:field="*{division}">
+                <option value="">--Phòng ban--</option>
+                <option th:each="division : ${divisions}" th:value="${division.id}" th:text="${division.name}"></option>
+            </select>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('division')}" th:errors="*{division}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto" >
+            <select   class="form-select" th:field="*{position}">
+                <option value="">--Vị trí--</option>
+                <option th:each="position : ${positions}" th:value="${position.id}" th:text="${position.name}"></option>
+            </select>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('position')}" th:errors="*{position}"></p>
+        </div>
+
+
+        <div class="form-outline my-2 col-4 mx-auto" >
+            <select   class="form-select" th:field="*{education}">
+                <option value="">--Trình độ học vấn--</option>
+                <option th:each="education : ${educations}" th:value="${education.id}" th:text="${education.name}"></option>
+            </select>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('education')}" th:errors="*{education}"></p>
+        </div>
+        <div class="col-4 my-2 mx-auto">
+            <input type="submit" id="register" value="Hoàn thành chỉnh sửa" class="btn btn-secondary w-100 my-2">
+            <a  href="/employees/"  class="btn btn-detail w-100 my-2">Hủy chỉnh sửa</a>
+        </div>
+    </form>
+</div>
+
+<th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>
