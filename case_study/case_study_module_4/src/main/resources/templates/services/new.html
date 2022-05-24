@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h4 class="text-center text-primary my-4">Thông tin dịch vụ được thêm mới</h4>
-    <form class="container mx-auto" th:object="${facilityDto}" method="post" action="/employees/create">
+    <form class="container mx-auto" th:object="${facilityDto}" method="post" action="/service/new">
 
         <div class="form-outline my-2 col-4 mx-auto">
             <input type="text" id="code" class="form-control" th:field="*{code}"/>
@@ -27,31 +27,31 @@
         </div>
 
         <div class="form-outline my-2 col-4 mx-auto">
-            <input type="text" id="email" class="form-control" th:field="*{area}"/>
-            <label class="form-label" for="email">Diện tích sử dụng </label>
+            <input type="text" id="area" class="form-control" th:field="*{area}"/>
+            <label class="form-label" for="area">Diện tích sử dụng </label>
         </div>
         <div class="my-2 col-4 mx-auto">
             <p th:if="${#fields.hasErrors('area')}" th:errors="*{area}"></p>
         </div>
         <div class="form-outline my-2 col-4 mx-auto">
-            <input type="date" id="dob" class="form-control" th:field="*{cost}"/>
-            <label class="form-label" for="dob">Phí thuê</label>
+            <input type="text" id="cost" class="form-control" th:field="*{cost}"/>
+            <label class="form-label" for="cost">Phí thuê</label>
         </div>
         <div class="my-2 col-4 mx-auto">
             <p th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}"></p>
         </div>
 
         <div class="form-outline my-2 col-4 mx-auto">
-            <input type="text" id="card" class="form-control" th:field="*{maxPeople}"/>
-            <label class="form-label" for="card">Số chứng minh thư</label>
+            <input type="text" id="max" class="form-control" th:field="*{maxPeople}"/>
+            <label class="form-label" for="max">Số người tối đa</label>
         </div>
         <div class="my-2 col-4 mx-auto">
             <p th:if="${#fields.hasErrors('maxPeople')}" th:errors="*{maxPeople}"></p>
         </div>
 
         <div class="form-outline my-2 col-4 mx-auto">
-            <input type="text" id="phone" class="form-control" th:field="*{descriptionConvenience}"/>
-            <label class="form-label" for="phone">Tiện nghi dịch vụ</label>
+            <input type="text" id="descriptionConvenience" class="form-control" th:field="*{descriptionConvenience}"/>
+            <label class="form-label" for="descriptionConvenience">Tiện nghi đi kèm dịch vụ</label>
         </div>
         <div class="my-2 col-4 mx-auto">
             <p th:if="${#fields.hasErrors('descriptionConvenience')}" th:errors="*{descriptionConvenience}"></p>
@@ -61,8 +61,8 @@
 
 
             <div class="form-outline my-2 col-4 mx-auto">
-                <input type="text" class="form-control" th:field="*{floors}"/>
-                <label class="form-label" for="phone">Số tầng</label>
+                <input type="text" id="floors" class="form-control" th:field="*{floors}"/>
+                <label class="form-label" for="floors">Số tầng</label>
             </div>
             <div class="my-2 col-4 mx-auto">
                 <p th:if="${#fields.hasErrors('floors')}" th:errors="*{floors}"></p>
@@ -72,16 +72,13 @@
 
 
             <div class="form-outline my-2 col-4 mx-auto">
-                <input type="text" id="address" class="form-control" th:field="*{poolArea}"/>
-                <label class="form-label" for="phone">Diện tích hồ bơi</label>
+                <input type="text" id="poolArea" class="form-control" th:field="*{poolArea}"/>
+                <label class="form-label" for="poolArea">Diện tích hồ bơi</label>
             </div>
             <div class="my-2 col-4 mx-auto">
                 <p th:if="${#fields.hasErrors('poolArea')}" th:errors="*{poolArea}"></p>
             </div>
         </div>
-
-
-
 
         <div class="form-outline my-2 col-4 mx-auto">
             <select class="form-select" id="facilitySelect" th:field="*{facilityType}">
@@ -108,7 +105,7 @@
         </div>
 
         <div class="form-outline my-2 col-4 mx-auto">
-            <select id="gender" class="form-select" th:field="*{standardRoom}">
+            <select id="standard" class="form-select" th:field="*{standardRoom}">
                 <option value="">--Tiêu chuẩn dịch vụ--</option>
                 <option value="Vip">Vip</option>
                 <option value="Normal">Normal</option>
@@ -128,13 +125,22 @@
 <script>
     $("#facilitySelect").change(function(){
         let number = $("#facilitySelect").val();
-        switch (number) {
-            case "":
-            case 1:break;
-            case 2:
-                $()
-                break;
-            case 3:break;
+        console.log(number);
+        if(number === '1' || number === ''){
+            $("#poolArea").removeAttr("disabled");
+            $("#poolForm").removeClass("d-none");
+            $("#floors").removeAttr("disabled");
+            $("#floorForm").removeClass("d-none");
+        }else if(number === '2'){
+            console.log('House')
+            $("#poolArea").attr("disabled",true);
+            $("#poolForm").attr("class","d-none");
+        }else{
+            console.log('Room')
+            $("#poolArea").attr("disabled",true);
+            $("#poolForm").attr("class","d-none");
+            $("#floors").attr("disabled",true);
+            $("#floorForm").attr("class","d-none");
         }
     })
 </script>
