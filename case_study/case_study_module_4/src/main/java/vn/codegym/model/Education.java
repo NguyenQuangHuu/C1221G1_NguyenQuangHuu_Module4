@@ -1,6 +1,8 @@
 package vn.codegym.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,6 +15,7 @@ public class Education {
     private String name;
 
     @OneToMany(mappedBy = "education")
+    @JsonBackReference
     private List<Employee> employees;
 
     public Education() {

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/employees/layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{/employees/layout::carousel}"></div>
+    <!-- Tab content -->
+
+    <h4 class="text-secondary text-center my-2">Danh sách nhân viên</h4>
+    <a href="#" class="btn btn-detail">Đăng kí khách hàng mới</a>
+<!--    <div id="customerForm" class="mx-auto w-100 d-none">-->
+<!--        <h4 class="text-center text-primary my-4">Thông tin khách hàng thành viên</h4>-->
+<!--        <div class="container mx-auto">-->
+<!--            <input type="hidden" id="id">-->
+<!--            <input type="hidden" id="code">-->
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <input type="text" id="name" class="form-control"/>-->
+<!--                <label class="form-label" for="name">Tên khách hàng</label>-->
+
+<!--            </div>-->
+<!--            <p id="nameError" class="text-danger"></p>-->
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <input type="text" id="email" class="form-control"/>-->
+<!--                <label class="form-label" for="email">Email khách hàng</label>-->
+
+<!--            </div>-->
+<!--            <p id="emailError" class="text-danger"></p>-->
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <input type="date" id="dob" class="form-control"/>-->
+<!--                <label class="form-label" for="dob">Ngày tháng năm sinh</label>-->
+
+<!--            </div>-->
+<!--            <p id="dobError" class="text-danger"></p>-->
+
+
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <input type="text" id="card" class="form-control"/>-->
+<!--                <label class="form-label" for="card">Số chứng minh thư</label>-->
+
+<!--            </div>-->
+<!--            <p id="cardError" class="text-danger"></p>-->
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <input type="text" id="phone" class="form-control"/>-->
+<!--                <label class="form-label" for="phone">Số điện thoại liên hệ</label>-->
+
+<!--            </div>-->
+<!--            <p id="phoneError" class="text-danger"></p>-->
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <input type="text" id="address" class="form-control"/>-->
+<!--                <label class="form-label" for="phone">Địa chỉ liên hệ</label>-->
+
+<!--            </div>-->
+<!--            <p id="addressError" class="text-danger"></p>-->
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <select id="gender" class="form-select">-->
+<!--                    <option value="">&#45;&#45;Giới tính&#45;&#45;</option>-->
+<!--                    <option value="0">Nữ</option>-->
+<!--                    <option value="1">Nam</option>-->
+<!--                </select>-->
+
+<!--            </div>-->
+<!--            <p id="genderError" class="text-danger"></p>-->
+
+<!--            <div class="form-outline my-2 col-4 mx-auto">-->
+<!--                <select id="typeCustomer" class="form-select">-->
+<!--                    <option value="">&#45;&#45;Loại khách hàng&#45;&#45;</option>-->
+<!--                    <option value="1">1</option>-->
+<!--                    <option value="2">2</option>-->
+<!--                    <option value="3">3</option>-->
+<!--                    <option value="4">4</option>-->
+<!--                    <option value="5">5</option>-->
+<!--                </select>-->
+<!--                <p id="typeCustomerError" class="text-warning"></p>-->
+
+<!--            </div>-->
+<!--            <div class="col-4 my-2 mx-auto">-->
+<!--                &lt;!&ndash;        <p id="typeCustomerError" class="text-warning"></p>&ndash;&gt;-->
+<!--            </div>-->
+<!--            <div class="col-4 my-2 mx-auto">-->
+<!--                <input type="button" id="register" value="Đăng ký hội viên" class="btn btn-secondary w-100">-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div class="row">
+        <div class="form-outline my-2 col-3 mx-3">
+            <input type="text" id="searchName" class="form-control"/>
+            <label class="form-label" for="searchName">Tìm kiếm theo tên</label>
+        </div>
+        <div class="form-outline my-2 col-3 me-2">
+            <input type="text" id="searchPhone" class="form-control"/>
+            <label class="form-label" for="searchPhone">Tìm kiếm theo số điện thoại</label>
+        </div>
+
+        <div class="form-outline my-2 col-3 mx-2">
+            <select id="searchType" class="form-select">
+                <option value="">--Chọn--</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        <input type="button" id="searchSubmit" value="tìm kiếm" class="btn btn-secondary col-2 my-2">
+    </div>
+    <div class="row">
+        <div class="col-3" th:each="employee : ${employeeList}">
+            <div class="p-4 border m-4">
+                <h4>Tên nhân viên <span th:text="${employee.name}"></span></h4>
+                <p>Chức vụ <span th:text="${employee.division.name}"></span></p>
+                <p>Trình độ học vấn <span th:text="${employee.education.name}"></span></p>
+                <p>Vị trí làm viêc <span th:text="${employee.position.name}"></span></p>
+                <p>Ngày sinh <span th:text="${employee.birthday}"></span></p>
+                <p>Giới tính <span th:text="${employee.gender}"></span></p>
+                <p>CMT <span th:text="${employee.card}"></span></p>
+                <p>Mức lương <span th:text="${employee.salary}"></span></p>
+                <p class="text-truncate">Email <span th:text="${employee.email}"></span></p>
+                <p class="text-truncate">Địa chỉ <span  th:text="${employee.address}"></span></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Tab content -->
+    <nav class="w-25 mx-auto">
+        <ul class="pagination pagination-circle text-center justify-content-center">
+            <li class="page-item">
+                <a class="page-link">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active" aria-current="page">
+                <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+<div th:replace="~{/employees/layout::footer}"></div>
+
+<th:block th:replace="~{/employees/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

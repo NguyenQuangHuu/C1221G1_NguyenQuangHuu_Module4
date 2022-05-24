@@ -1,5 +1,7 @@
 package vn.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,6 +13,7 @@ public class CustomerType {
     private String name;
 
     @OneToMany(mappedBy = "customerType")
+    @JsonBackReference // bỏ cái này vào mới chạy được, éo hiểu kiểu gì
     private List<Customer> customers;
 
     public CustomerType() {

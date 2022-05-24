@@ -1,4 +1,7 @@
 package vn.codegym.repository;
 
-public interface IEducationRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import vn.codegym.model.Education;
+
+public interface IEducationRepository extends JpaRepository<Education,Integer> {
 }

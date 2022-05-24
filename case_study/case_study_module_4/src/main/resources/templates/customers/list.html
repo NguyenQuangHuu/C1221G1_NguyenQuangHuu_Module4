@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/customers/layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{/customers/layout::carousel}"></div>
+    <!-- Tab content -->
+
+    <h4 class="text-secondary text-center my-2">Danh sách khách hàng</h4>
+    <a href="/customers/new" class="btn btn-detail">Đăng kí khách hàng mới</a>
+    <form method="get">
+    <div class="row">
+
+        <div class="form-outline my-2 col-3 mx-3">
+            <input type="text" id="searchName" class="form-control" name="nameQuery"/>
+            <label class="form-label" for="searchName">Tìm kiếm theo tên</label>
+        </div>
+        <div class="form-outline my-2 col-3 me-2">
+            <input type="text" id="searchPhone" class="form-control" name="phoneQuery"/>
+            <label class="form-label" for="searchPhone">Tìm kiếm theo số điện thoại</label>
+        </div>
+
+        <div class="form-outline my-2 col-3 mx-2">
+            <select id="searchType" class="form-select" name="typeQuery">
+                <option value="">--Chọn--</option>
+                <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>
+            </select>
+        </div>
+        <input type="submit" id="searchSubmit" value="tìm kiếm" class="btn btn-secondary col-2 my-2">
+
+    </div>
+    </form>
+
+
+
+
+    <table class="table table-striped border">
+        <thead>
+        <tr>
+            <td>#</td>
+            <td>name</td>
+            <td>birthday</td>
+            <td>card</td>
+            <td>phone</td>
+            <td>email</td>
+            <td>address</td>
+            <td>type</td>
+            <td>action</td>
+        </tr>
+        </thead>
+        <tbody id="fetchData">
+            <tr th:each="customer,status : ${customers}">
+                <td th:text="${status.count}"></td>
+                <td ><a th:href="'/customers/detail/'+${customer.id}"><span th:text="${customer.name}"></span></a></td>
+                <td th:text="${customer.birthday}"></td>
+                <td th:text="${customer.card}"></td>
+                <td th:text="${customer.phone}"></td>
+                <td th:text="${customer.email}"></td>
+                <td th:text="${customer.address}"></td>
+                <td th:text="${customer.customerType.name}"></td>
+                <td id="action">
+                    <a class="btn btn-detail" th:href="@{/customers/update/__${customer.id}__}">Edit</a>
+                    <a th:href="${customer.id}" class="btn btn-danger deleteModal">Delete</a>
+<!--                    <a class="btn btn-danger" th:href="@{/customers/delete/{id}(id=${customer.id})}">Delete</a>-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination pagination-circle">
+            <li class="page-item">
+                <a class="page-link" th:if="${customers.hasPrevious()}" th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch})}">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" th:href="@{/customers/(page=${customers.number})}" th:text="${customers.number+1}"></a></li>
+
+            <li class="page-item"><a class="page-link" th:if="${customers.number < customers.getTotalPages()-2 }" th:text="..."></a></li>
+
+            <li class="page-item"><a class="page-link" th:if="${!customers.isLast()}" th:text="${customers.totalPages}"></a></li>
+
+            <li class="page-item">
+                <a class="page-link" th:if="${customers.hasNext()}" th:href="@{/customers/(page=${customers.number+1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<script>
+    $(document).ready(function () {
+        let test= false;
+        $(".deleteModal").click(function(event){
+            console.log($(this).attr('href'));
+            test = !test;
+            console.log(test);
+            if(!test){
+                $("#action").html(`
+                    <button>Edit</button>
+                    <button>Delete</button>
+                `)
+            }
+            event.preventDefault();
+        })
+    })
+</script>
+<div th:replace="~{customers/layout::footer}"></div>
+<th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

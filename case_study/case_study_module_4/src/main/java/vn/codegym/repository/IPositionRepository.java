@@ -1,4 +1,7 @@
 package vn.codegym.repository;
 
-public interface IPositionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import vn.codegym.model.Position;
+
+public interface IPositionRepository extends JpaRepository<Position , Integer> {
 }
