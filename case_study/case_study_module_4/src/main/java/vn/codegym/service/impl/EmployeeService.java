@@ -8,6 +8,7 @@ import vn.codegym.model.Employee;
 import vn.codegym.repository.IEmployeeRepository;
 import vn.codegym.service.IEmployeeService;
 
+import java.util.List;
 
 
 @Service
@@ -42,5 +43,10 @@ public class EmployeeService implements IEmployeeService {
         }else{
             return this.iEmployeeRepository.findAllByNameContainingAndPhoneContainingAndDivision_Id(name,phone,Integer.parseInt(division),pageable);
         }
+    }
+
+    @Override
+    public List<Employee> findAllEmployee() {
+        return this.iEmployeeRepository.findAll();
     }
 }

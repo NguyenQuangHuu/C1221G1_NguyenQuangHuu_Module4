@@ -9,6 +9,9 @@ import vn.codegym.dto.CustomerDto;
 import vn.codegym.model.Customer;
 import vn.codegym.repository.ICustomerRepository;
 import vn.codegym.service.ICustomerService;
+
+import java.util.List;
+
 @Service
 public class CustomerService implements ICustomerService {
     @Autowired
@@ -20,13 +23,6 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public void save(CustomerDto customerDto) {
-        String randomCode = null;
-        boolean checkCode = true;
-        do{
-            randomCode = "KH-" + (int) (Math.random()*8999+1000);
-            checkCode = this.iCustomerRepository.existsCustomerByCode(randomCode);
-        }while (checkCode);
-        customerDto.setCode(randomCode);
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDto,customer);
         this.iCustomerRepository.save(customer);
@@ -54,6 +50,11 @@ public class CustomerService implements ICustomerService {
         }else{
             return this.iCustomerRepository.findAllByNameContainingAndPhoneContainingAndCustomerType_Id(nameQuery,phoneQuery,Integer.parseInt(typeQuery),pageable);
         }
+    }
+
+    @Override
+    public List<Customer> findAllCustomer() {
+        return this.iCustomerRepository.findAll();
     }
 
 

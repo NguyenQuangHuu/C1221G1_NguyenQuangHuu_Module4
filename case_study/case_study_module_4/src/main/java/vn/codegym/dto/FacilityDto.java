@@ -4,6 +4,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import vn.codegym.model.FacilityType;
 import vn.codegym.model.RentType;
+import vn.codegym.utils.RegEx;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,20 +13,20 @@ public class FacilityDto implements Validator {
     private Integer id;
     private String code;
     private String name;
-    private Double area;
-    private Double cost;
-    private Integer maxPeople;
+    private String area;
+    private String cost;
+    private String maxPeople;
     private String standardRoom;
     private String descriptionConvenience;
-    private Double poolArea;
-    private Integer floors;
+    private String poolArea;
+    private String floors;
     private FacilityType facilityType;
     private RentType rentType;
 
     public FacilityDto() {
     }
 
-    public FacilityDto(String code, String name, Double area, Double cost, Integer maxPeople, String standardRoom, String descriptionConvenience, Double poolArea, Integer floors, FacilityType facilityType, RentType rentType) {
+    public FacilityDto(String code, String name, String area, String cost, String maxPeople, String standardRoom, String descriptionConvenience, String poolArea, String floors, FacilityType facilityType, RentType rentType) {
         this.code = code;
         this.name = name;
         this.area = area;
@@ -38,6 +39,7 @@ public class FacilityDto implements Validator {
         this.facilityType = facilityType;
         this.rentType = rentType;
     }
+
     public Integer getId() {
         return id;
     }
@@ -62,27 +64,27 @@ public class FacilityDto implements Validator {
         this.name = name;
     }
 
-    public Double getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(Double area) {
+    public void setArea(String area) {
         this.area = area;
     }
 
-    public Double getCost() {
+    public String getCost() {
         return cost;
     }
 
-    public void setCost(Double cost) {
+    public void setCost(String cost) {
         this.cost = cost;
     }
 
-    public Integer getMaxPeople() {
+    public String getMaxPeople() {
         return maxPeople;
     }
 
-    public void setMaxPeople(Integer maxPeople) {
+    public void setMaxPeople(String maxPeople) {
         this.maxPeople = maxPeople;
     }
 
@@ -102,19 +104,19 @@ public class FacilityDto implements Validator {
         this.descriptionConvenience = descriptionConvenience;
     }
 
-    public Double getPoolArea() {
+    public String getPoolArea() {
         return poolArea;
     }
 
-    public void setPoolArea(Double poolArea) {
+    public void setPoolArea(String poolArea) {
         this.poolArea = poolArea;
     }
 
-    public Integer getFloors() {
+    public String getFloors() {
         return floors;
     }
 
-    public void setFloors(Integer floors) {
+    public void setFloors(String floors) {
         this.floors = floors;
     }
 
@@ -134,7 +136,6 @@ public class FacilityDto implements Validator {
         this.rentType = rentType;
     }
 
-
     @Override
     public boolean supports(Class<?> clazz) {
         return false;
@@ -143,5 +144,25 @@ public class FacilityDto implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         FacilityDto facilityDto = (FacilityDto) target;
+        if(!RegEx.serviceCode(facilityDto.code)){
+            errors.rejectValue("code","facility.code","non");
+        }
+
+        if(!RegEx.numberTensPositive(facilityDto.area)){
+            errors.rejectValue("area","area.positive","non");
+        }
+
+        if(!RegEx.numberPositive(facilityDto.floors)){
+            errors.rejectValue("floors","floors.positive","non");
+
+        }
+
+        if(!RegEx.numberPositive(facilityDto.maxPeople)){
+            errors.rejectValue("maxPeople","max.people","nonn");
+        }
+
+        if(!RegEx.numberTensPositive(facilityDto.poolArea)){
+            errors.rejectValue("poolArea","pool.positive","nonn");
+        }
     }
 }

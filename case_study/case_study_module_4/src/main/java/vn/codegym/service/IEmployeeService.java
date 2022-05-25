@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vn.codegym.model.Employee;
 
+import java.util.List;
 
 
 public interface IEmployeeService {
@@ -16,4 +17,6 @@ public interface IEmployeeService {
     void remove(Employee employee);
 
     Page<Employee> findAllByNameAndPhoneAndDivision(String name, String phone, String division, Pageable pageable);
+
+    List<Employee> findAllEmployee();
 }

@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import vn.codegym.dto.CustomerDto;
 import vn.codegym.model.Customer;
 
+import java.util.List;
+
 public interface ICustomerService {
     Page<Customer> findAll(Pageable pageable);
 
@@ -17,4 +19,6 @@ public interface ICustomerService {
     boolean checkExist(String randomCode);
 
     Page<Customer> findByNameAndPhoneAndTypeCustomer(String nameValue, String phoneValue,String typeValue, Pageable pageable);
+
+    List<Customer> findAllCustomer();
 }

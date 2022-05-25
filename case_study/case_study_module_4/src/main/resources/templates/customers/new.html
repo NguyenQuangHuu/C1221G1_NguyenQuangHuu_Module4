@@ -11,6 +11,13 @@
     <h4 class="text-center text-primary my-4">Thông tin khách hàng thành viên</h4>
     <form class="container mx-auto" th:object="${customerDto}" method="post" action="/customers/new">
         <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="code" class="form-control" th:field="*{code}"/>
+            <label class="form-label" for="code">Mã khách hàng</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('code')}" th:errors="*{code}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
             <input type="text" id="name" class="form-control" th:field="*{name}"/>
             <label class="form-label" for="name">Tên khách hàng</label>
         </div>

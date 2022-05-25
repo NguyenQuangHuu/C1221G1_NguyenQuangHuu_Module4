@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/customers/layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container-fluid">
+    <div th:replace="~{/customers/layout::carousel}"></div>
+    <!-- Tab content -->
+
+    <h4 class="text-secondary text-center my-2">Danh sách khách hàng</h4>
+    <a href="/contracts/new" class="btn btn-detail">Tạo hợp đồng mới</a>
+<!--    <form method="get">-->
+<!--    <div class="row">-->
+
+<!--        <div class="form-outline my-2 col-3 mx-3">-->
+<!--            <input type="text" id="searchName" class="form-control" name="nameQuery"/>-->
+<!--            <label class="form-label" for="searchName">Tìm kiếm theo tên</label>-->
+<!--        </div>-->
+<!--        <div class="form-outline my-2 col-3 me-2">-->
+<!--            <input type="text" id="searchPhone" class="form-control" name="phoneQuery"/>-->
+<!--            <label class="form-label" for="searchPhone">Tìm kiếm theo số điện thoại</label>-->
+<!--        </div>-->
+
+<!--        <div class="form-outline my-2 col-3 mx-2">-->
+<!--            <select id="searchType" class="form-select" name="typeQuery">-->
+<!--                <option value="">&#45;&#45;Chọn&#45;&#45;</option>-->
+<!--                <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <input type="submit" id="searchSubmit" value="tìm kiếm" class="btn btn-secondary col-2 my-2">-->
+
+<!--    </div>-->
+<!--    </form>-->
+
+
+
+
+    <table class="table table-striped border">
+        <thead>
+        <tr>
+            <td>#</td>
+            <td>Start Date</td>
+            <td>End Date</td>
+            <td>Deposit</td>
+            <td>Total Bill</td>
+            <td>Employee</td>
+            <td>Customer</td>
+            <td>Service</td>
+            <td>Action</td>
+        </tr>
+        </thead>
+        <tbody id="fetchData">
+            <tr th:each="contract,status : ${contracts}">
+                <td th:text="${status.count}"></td>
+                <td th:text="${contract.startDate}"></td>
+                <td th:text="${contract.endDate}"></td>
+                <td th:text="${contract.deposit}"></td>
+                <td th:text="${contract.totalBill}"></td>
+                <td th:text="${contract.employee.name}"></td>
+                <td th:text="${contract.customer.name}"></td>
+                <td th:text="${contract.facility.name}"></td>
+
+                <td id="action">
+
+                    <button type="button" class="btn btn-detail">Chỉnh sửa</button>
+                    <button type="button" class="btn btn-detail">Xóa nuôn</button>
+<!--                    <a class="btn btn-danger" th:href="@{/customers/delete/{id}(id=${customer.id})}">Delete</a>-->
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination pagination-circle">
+            <li class="page-item">
+                <a class="page-link" th:if="${contracts.hasPrevious()}" th:href="@{/contracts/(page=${contracts.number-1})}">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" th:href="@{/contracts/(page=${contracts.number})}" th:text="${contracts.number+1}"></a></li>
+
+            <li class="page-item"><a class="page-link" th:if="${contracts.number < contracts.getTotalPages()-2 }" th:text="..."></a></li>
+
+            <li class="page-item"><a class="page-link" th:if="${!contracts.isLast()}" th:text="${contracts.totalPages}"></a></li>
+
+            <li class="page-item">
+                <a class="page-link" th:if="${contracts.hasNext()}" th:href="@{/contracts/(page=${contracts.number+1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<div th:replace="~{customers/layout::footer}"></div>
+<th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

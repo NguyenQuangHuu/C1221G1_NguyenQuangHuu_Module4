@@ -5,22 +5,25 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import vn.codegym.model.CustomerType;
+import vn.codegym.utils.RegEx;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.Period;
+
 public class CustomerDto implements Validator {
     private Integer id;
     private String code;
     private String name;
-    @NotBlank(message = "{dob.notBlank}")
+
     private String birthday;
-    @NotNull(message = "{notNull}")
+
     private Integer gender;
-    @NotEmpty(message = "{card}")
+
     private String card;
-    @NotEmpty(message = "{phone}")
+
     private String phone;
     private String email;
-    @NotEmpty(message = "{address}")
     private String address;
 
     @NotNull(message = "{notNull}")
@@ -129,13 +132,40 @@ public class CustomerDto implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         CustomerDto customerDto = (CustomerDto) target;
+        if(!RegEx.codeCustomerCheck(customerDto.getCode())){
+            errors.rejectValue("code","customer.code","nonn");
+        }
+
         if ("".equals(customerDto.getName())){
             errors.rejectValue("name","name.notBlank","nonnn");
+        } else if(!RegEx.nameCheck(customerDto.getName())){
+            errors.rejectValue("name","name.pattern","nonnn");
         }
 
         if("".equals(customerDto.getEmail())){
             errors.rejectValue("email","email.notNull","nonnn");
+        }else if(!RegEx.emailValidate(customerDto.email)){
+            errors.rejectValue("email","email.pattern","nonn");
         }
+
+        if("".equals(customerDto.phone)){
+            errors.rejectValue("phone","phone","nonn");
+        }else if(!RegEx.phoneNumberValidate(customerDto.phone)){
+            errors.rejectValue("phone","phone","nonn");
+        }
+
+        if("".equals(customerDto.birthday)){
+            errors.rejectValue("birthday","birthday.pattern","nonnn");
+        }else if(Period.between(LocalDate.parse(customerDto.birthday),LocalDate.now()).getYears()<18){
+            errors.rejectValue("birthday","age","nonn");
+        }
+
+        if("".equals(customerDto.card)){
+            errors.rejectValue("card","card","nonnn");
+        }else if(!RegEx.passportValidate(customerDto.card)){
+            errors.rejectValue("card","card","nonnn");
+        }
+
     }
 
 //    @Override

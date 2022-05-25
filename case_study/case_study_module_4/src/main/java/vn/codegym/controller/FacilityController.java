@@ -64,9 +64,8 @@ public class FacilityController {
         if(bindingResult.hasFieldErrors()){
             return "/services/new";
         }
-        Facility facility = new Facility();
-        BeanUtils.copyProperties(facilityDto,facility);
-        this.iFacilityService.save(facility);
+
+        this.iFacilityService.save(facilityDto);
         return "redirect:/service/";
     }
 }

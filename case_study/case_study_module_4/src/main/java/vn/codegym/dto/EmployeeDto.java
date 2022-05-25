@@ -6,11 +6,14 @@ import vn.codegym.model.Account;
 import vn.codegym.model.Division;
 import vn.codegym.model.Education;
 import vn.codegym.model.Position;
+import vn.codegym.utils.RegEx;
 
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.time.LocalDate;
+import java.time.Period;
 
 public class EmployeeDto implements Validator {
     private Integer id;
@@ -19,7 +22,7 @@ public class EmployeeDto implements Validator {
     private String birthday;
     private Integer gender;
     private String card;
-    private Double salary;
+    private String salary;
     private String phone;
     private String email;
     private String address;
@@ -31,7 +34,7 @@ public class EmployeeDto implements Validator {
     public EmployeeDto() {
     }
 
-    public EmployeeDto(String code, String name, String birthday, Integer gender, String card, Double salary, String phone, String email, String address, Education education, Division division, Position position) {
+    public EmployeeDto(String code, String name, String birthday, Integer gender, String card, String salary, String phone, String email, String address, Education education, Division division, Position position) {
         this.code = code;
         this.name = name;
         this.birthday = birthday;
@@ -94,11 +97,11 @@ public class EmployeeDto implements Validator {
         this.card = card;
     }
 
-    public Double getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 
@@ -164,23 +167,38 @@ public class EmployeeDto implements Validator {
         if("".equals(employeeDto.code)){
             errors.rejectValue("code","notNull","non");
         }
-        if("".equals(employeeDto.birthday)){
-            errors.rejectValue("birthday","dob.notBlank","non");
-        }
-        if("".equals(employeeDto.card)){
-            errors.rejectValue("card","card","non");
-        }
-        if("".equals(employeeDto.phone)){
-            errors.rejectValue("phone","phone","non");
-        }
+
         if("".equals(employeeDto.email)){
-            errors.rejectValue("email","email.notNull","non");
+            errors.rejectValue("email","email.notNull","nonnn");
+        }else if(!RegEx.emailValidate(employeeDto.email)){
+            errors.rejectValue("email","email.pattern","nonn");
         }
+
+        if("".equals(employeeDto.phone)){
+            errors.rejectValue("phone","phone","nonn");
+        }else if(!RegEx.phoneNumberValidate(employeeDto.phone)){
+            errors.rejectValue("phone","phone","nonn");
+        }
+
+        if("".equals(employeeDto.birthday)){
+            errors.rejectValue("birthday","birthday.pattern","nonnn");
+        }else if(Period.between(LocalDate.parse(employeeDto.birthday),LocalDate.now()).getYears()<18){
+            errors.rejectValue("birthday","age","nonn");
+        }
+
+        if("".equals(employeeDto.card)){
+            errors.rejectValue("card","card","nonnn");
+        }else if(!RegEx.passportValidate(employeeDto.card)){
+            errors.rejectValue("card","card","nonnn");
+        }
+
         if("".equals(employeeDto.address)){
             errors.rejectValue("address","address","non");
         }
-        if(employeeDto.salary == null){
+        if("".equals(employeeDto.salary)){
             errors.rejectValue("salary","notNull","non");
+        }else if(!RegEx.numberTensPositive(employeeDto.salary)){
+            errors.rejectValue("salary","salary.notNull","nonn");
         }
         if(employeeDto.gender == null){
             errors.rejectValue("gender","notNull","non");

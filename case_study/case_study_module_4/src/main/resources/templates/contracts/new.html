@@ -1,0 +1,82 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/customers/layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <h4 class="text-center text-primary my-4">Thông tin khách hàng thành viên</h4>
+    <form class="container mx-auto" th:object="${contractDto}" method="post" action="/contracts/new">
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="date" id="name" class="form-control" th:field="*{startDate}"/>
+            <label class="form-label" for="name">Ngày nhận phòng</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="date" id="email" class="form-control" th:field="*{endDate}"/>
+            <label class="form-label" for="email">Ngày trả phòng</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="deposit" class="form-control" th:field="*{deposit}"/>
+            <label class="form-label" for="deposit">Tiền cọc</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('deposit')}" th:errors="*{deposit}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
+            <input type="text" id="bill" class="form-control" th:field="*{totalBill}"/>
+            <label class="form-label" for="bill">Tổng tiền cần thanh toán</label>
+
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('totalBill')}" th:errors="*{totalBill}"></p>
+        </div>
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <select  class="form-select" th:field="*{employee}">
+                <option value="">--Tên nhân viên làm hợp đồng--</option>
+                <option th:each="emp : ${employees}" th:value="${emp.id}" th:text="${emp.name}"></option>
+            </select>
+
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('employee')}" th:errors="*{employee}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto" >
+            <select id="typeCustomer"  class="form-select" th:field="*{customer}">
+                <option value="">--Tên khách hàng đặt phòng--</option>
+                <option th:each="cust : ${customers}" th:value="${cust.id}" th:text="${cust.name}"></option>
+            </select>
+
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto" >
+            <select id="facilityChange"  class="form-select" th:field="*{facility}">
+                <option value="">--Dịch vụ được cung cấp--</option>
+                <option th:each="facility : ${facilities}" th:if="${facility.floors != null}" th:value="${facility.id}" th:text="${facility.name}"></option>
+            </select>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('facility')}" th:errors="*{facility}"></p>
+        </div>
+        <div class="col-4 my-2 mx-auto">
+            <input type="submit" id="register" value="Tạo hợp đồng" class="btn btn-secondary w-100">
+        </div>
+    </form>
+</div>
+<script>
+</script>
+<th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>
