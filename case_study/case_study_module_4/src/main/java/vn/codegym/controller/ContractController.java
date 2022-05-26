@@ -14,16 +14,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vn.codegym.dto.ContractDto;
-import vn.codegym.model.Contract;
-import vn.codegym.model.Customer;
-import vn.codegym.model.Employee;
-import vn.codegym.model.Facility;
-import vn.codegym.service.IContractService;
-import vn.codegym.service.ICustomerService;
-import vn.codegym.service.IEmployeeService;
-import vn.codegym.service.IFacilityService;
+import vn.codegym.dto.FacilityDto;
+import vn.codegym.dto.ICustomerDto;
+import vn.codegym.model.*;
+import vn.codegym.service.*;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/contracts")
@@ -40,6 +39,12 @@ public class ContractController {
 
     @Autowired
     private IFacilityService iFacilityService;
+
+    @Autowired
+    private IContractDetailService iContractDetailService;
+
+    @Autowired
+    private IAttachServiceService iAttachServiceService;
 
     @ModelAttribute("employees")
     public List<Employee> findAllEmployee(){
@@ -65,7 +70,9 @@ public class ContractController {
 
     @GetMapping("/new")
     public String newContractForm(Model model){
-        model.addAttribute("contractDto",new ContractDto());
+        ContractDto contractDto = new ContractDto();
+        contractDto.setStartDate(LocalDate.now().toString());
+        model.addAttribute("contractDto",contractDto);
         return "/contracts/new";
     }
 
@@ -77,5 +84,38 @@ public class ContractController {
         }
         this.iContractService.add(contractDto);
         return "redirect:/contracts/";
+    }
+
+//    @GetMapping("/using-service")
+//    public String customerUsingService(Model model){
+//        List<Contract> contracts = this.iContractService.takeEffectContracts();
+//        List<ContractDto> contractDtoList = this.iContractService.copyList(contracts);
+//        List<ContractDetail> contractDetails = this.iContractDetailService.findAll();
+//
+//        Map<ContractDto,String> contractStringMap = new HashMap<>();
+//        for (ContractDto con: contractDtoList
+//             ) {
+//            if(!contractStringMap.containsKey(con)){
+//                String text = "";
+//                for (int i = 0; i < contractDetails.size() ; i++) {
+//                    if(contractDetails.get(i).getContractId().getId() == con.getId()){
+//                        if(!text.contains(contractDetails.get(i).getAttachService().getName())){
+//                            text += contractDetails.get(i).getAttachService().getName()+",";
+//                        }
+//                    };
+//                }
+//                contractStringMap.put(con,text);
+//            }
+//        }
+//
+//        model.addAttribute("concatStringMap",contractStringMap);
+//        return "/contracts/customer-using-service";
+//    }
+
+    @GetMapping("/take-effect")
+    public String takeEffectService(@PageableDefault(value=2) Pageable pageable,Model model){
+        Page<ICustomerDto> customersTakeEffectService = this.iContractService.takeEffectService(pageable);
+        model.addAttribute("customersTakeEffectService",customersTakeEffectService);
+        return "/contracts/customer-using-service";
     }
 }

@@ -64,7 +64,6 @@ public class FacilityController {
         if(bindingResult.hasFieldErrors()){
             return "/services/new";
         }
-
         this.iFacilityService.save(facilityDto);
         return "redirect:/service/";
     }

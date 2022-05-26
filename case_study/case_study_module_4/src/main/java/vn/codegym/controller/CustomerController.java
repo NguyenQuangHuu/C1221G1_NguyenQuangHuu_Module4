@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vn.codegym.dto.CustomerDto;
+import vn.codegym.dto.ICustomerDto;
 import vn.codegym.model.Customer;
 import vn.codegym.model.CustomerType;
 import vn.codegym.service.ICustomerService;
@@ -119,6 +120,8 @@ public class CustomerController {
         this.customerService.save(customerDto);
         return "redirect:/customers/";
     }
+
+
 
 
 }

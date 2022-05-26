@@ -1,0 +1,101 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <h4 class="text-center text-primary my-4">Thông tin khách hàng thành viên</h4>
+    <form class="container mx-auto" th:object="${contractDetailDto}" method="post" action="/contracts-detail/create">
+
+
+        <div class="form-outline my-2 col-4 mx-auto">
+            <select id="contractDetailChange" class="form-select" th:field="*{contractId}">
+                <option value="">--Mã số hợp đồng--</option>
+                <option th:data-start="|${con.startDate}|"
+                        th:data-end="|${con.endDate}|"
+                        th:data-facility="|${con.facility.name}|"
+                        th:data-customer="|${con.customer.name}|"
+                        th:data-employee="|${con.employee.name}|"
+                        th:each="con : ${contracts}" th:value="${con.id}" th:text="${con.id}"></option>
+            </select>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('contractId')}" th:errors="*{contractId}"></p>
+        </div>
+        <div id="moreInfo">
+
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto">
+            <select id="typeCustomer" class="form-select" th:field="*{attachService}">
+                <option value="">-- Dịch vụ đi kèm đã sử dụng --</option>
+                <option th:each="attach : ${attachService}" th:value="${attach.id}" th:text="${attach.name}"></option>
+            </select>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('attachService')}" th:errors="*{attachService}"></p>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto border">
+            <input type="text" id="bill" class="form-control" th:field="*{quantity}"/>
+            <label class="form-label" for="bill">Số lượng sử dụng</label>
+        </div>
+        <div class="my-2 col-4 mx-auto">
+            <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"></p>
+        </div>
+        <div class="col-4 my-2 mx-auto">
+            <input type="submit" id="register" value="Thêm hợp đồng chi tiết cho hợp đồng"
+                   class="btn btn-secondary w-100">
+        </div>
+    </form>
+    <a class="btn btn-info" href="/contracts/">Quay lại màn hình danh sách hợp đồng</a>
+</div>
+<script>
+
+    //$(this).find(':selected').attr('data-cost');
+    $("#contractDetailChange").change(function () {
+        let num = $(this).val();
+        let text = ``
+        if (num !== "") {
+            let startDate = $(this).find(':selected').data('start');
+            let endDate = $(this).find(':selected').data('end');
+            let facility = $(this).find(':selected').data('facility');
+            let customer = $(this).find(':selected').data('customer');
+            let employee = $(this).find(':selected').data('employee');
+
+
+             text = `
+        <div class="form-outline my-2 col-4 mx-auto border" >
+            Ngày nhận phòng
+            <input type="text" id="bill" disabled class="form-control" value="${startDate}"/>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto border" >
+        Ngày trả phòng
+            <input type="text" id="bill" disabled class="form-control" value="${endDate}"/>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto border" >
+            Tên dịch vụ
+            <input type="text" id="bill" disabled class="form-control" value="${facility}"/>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto border" >
+        Tên khách hàng
+            <input type="text" id="bill" disabled class="form-control" value="${customer}"/>
+        </div>
+        <div class="form-outline my-2 col-4 mx-auto border" >
+        Tên nhân viên làm hợp đồng
+            <input type="text" id="bill" disabled class="form-control" value="${employee}"/>
+        </div>
+            `
+            $("#moreInfo").html(text);
+        }else{
+            $("#moreInfo").html(text);
+        }
+
+    })
+
+</script>
+<th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

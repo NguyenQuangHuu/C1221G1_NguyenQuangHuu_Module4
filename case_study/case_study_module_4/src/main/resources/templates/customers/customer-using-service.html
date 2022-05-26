@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{/customers/layout::link-bootstrap}"></th:block>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+    <h3 class="text-detail">Danh sách khách hàng đang sử dụng dịch vụ của</h3>
+    <div class="container-fluid">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Id Khách hàng</th>
+                <th>Khách thuê</th>
+                <th>Dịch vụ đang sử dung</th>
+                <th>Ngày nhận phòng</th>
+                <th>Ngày trả phòng</th>
+                <th>Dịch vụ đi kèm đang sử dụng</th>
+                <th>Chức năng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="con,status :${customersTakeEffectService}">
+                <td th:text="${status.count}"></td>
+                <td th:text="${con.getCustomerId()}"></td>
+                <td th:text="${con.getCustomerName()}"></td>
+                <td th:text="${con.getFacilityName()}"></td>
+                <td th:text="${con.getStartDate()}"></td>
+                <td th:text="${con.getEndDate()}"></td>
+                <td th:text="${con.getAttachServices()}"></td>
+                <td>
+                    <a th:href="'/services/'+${con.getFacilityId()}">Chỉnh sửa dịch vụ</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination pagination-circle">
+                <li class="page-item">
+                    <a class="page-link" th:if="${customersTakeEffectService.hasPrevious()}" th:href="@{/customers/take-effect/(page=${customersTakeEffectService.number-1})}">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" th:href="@{/customers/take-effect/(page=${customersTakeEffectService.number})}" th:text="${customersTakeEffectService.number+1}"></a></li>
+
+                <li class="page-item"><a class="page-link" th:if="${customersTakeEffectService.number < customersTakeEffectService.getTotalPages()-2 }" th:text="..."></a></li>
+
+                <li class="page-item"><a class="page-link" th:if="${!customersTakeEffectService.isLast()}" th:text="${customersTakeEffectService.totalPages}"></a></li>
+
+                <li class="page-item">
+                    <a class="page-link" th:if="${customersTakeEffectService.hasNext()}" th:href="@{/customers/take-effect/(page=${customersTakeEffectService.number+1})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+<th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
+</body>
+</html>

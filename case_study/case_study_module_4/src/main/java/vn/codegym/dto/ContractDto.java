@@ -7,13 +7,9 @@ import vn.codegym.model.Employee;
 import vn.codegym.model.Facility;
 import vn.codegym.utils.RegEx;
 
-import javax.swing.text.NumberFormatter;
-import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Locale;
+import java.util.Objects;
 
 public class ContractDto implements Validator {
     private Integer id;
@@ -115,10 +111,23 @@ public class ContractDto implements Validator {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ContractDto)) return false;
+        ContractDto that = (ContractDto) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
     public void validate(Object target, Errors errors) {
         ContractDto contractDto = (ContractDto) target;
         LocalDate now = LocalDate.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         if(contractDto.startDate.equals("")){
             errors.rejectValue("startDate","notNull","nonn");
@@ -130,7 +139,6 @@ public class ContractDto implements Validator {
             errors.rejectValue("endDate","notNull","nonn");
         }else if(Period.between(LocalDate.parse(contractDto.startDate),LocalDate.parse(contractDto.endDate)).getDays()>0 && Period.between(now,LocalDate.parse(contractDto.startDate)).getDays() < 0){
             errors.rejectValue("endDate","contract.diffDay","nôn");
-
         }else if(Period.between(LocalDate.parse(contractDto.startDate),LocalDate.parse(contractDto.endDate)).getDays() < 0){
             errors.rejectValue("endDate","contract.endDay","nonnn");
         }
@@ -161,5 +169,7 @@ public class ContractDto implements Validator {
 //        Locale locale = new Locale("vi","VN");
 //        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 //        String currency = numberFormat.format(contractDto.deposit);
+
+
     }
 }

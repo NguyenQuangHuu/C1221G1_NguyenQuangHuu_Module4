@@ -3,6 +3,7 @@ package vn.codegym.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vn.codegym.dto.CustomerDto;
+import vn.codegym.dto.ICustomerDto;
 import vn.codegym.model.Customer;
 
 import java.util.List;
@@ -21,4 +22,5 @@ public interface ICustomerService {
     Page<Customer> findByNameAndPhoneAndTypeCustomer(String nameValue, String phoneValue,String typeValue, Pageable pageable);
 
     List<Customer> findAllCustomer();
+
 }
