@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <h4 class="text-center text-primary my-4">Thông tin dịch vụ được thêm mới</h4>
-    <form class="container mx-auto" th:object="${facilityDto}" method="post" action="/service/new">
+    <form class="container mx-auto" th:object="${facilityDto}" method="post" action="/services/new">
 
         <div class="form-outline my-2 col-4 mx-auto">
             <input type="text" id="code" class="form-control" th:field="*{code}"/>

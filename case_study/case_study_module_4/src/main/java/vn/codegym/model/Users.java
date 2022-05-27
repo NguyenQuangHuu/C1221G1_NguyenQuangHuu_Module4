@@ -1,24 +1,30 @@
 package vn.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Account {
+public class Users {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String username;
 
     private String password;
 
 
 
-    @OneToMany(mappedBy = "account")
-    private List<AccountRole> accountRoleList;
+    @OneToMany(mappedBy = "users")
+    @JsonBackReference
+    private List<UserRole> userRoleList;
 
-    public Account() {
+    public Users() {
     }
 
-    public Account(String username, String password) {
+    public Users(String username, String password) {
         this.username = username;
         this.password = password;
     }

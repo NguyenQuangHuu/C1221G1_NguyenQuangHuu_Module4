@@ -144,6 +144,9 @@ public class FacilityDto implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         FacilityDto facilityDto = (FacilityDto) target;
+        if(facilityDto.floors == null){
+            facilityDto.setFloors("0");
+        }
         if(!RegEx.serviceCode(facilityDto.code)){
             errors.rejectValue("code","facility.code","non");
         }
@@ -154,7 +157,6 @@ public class FacilityDto implements Validator {
 
         if(!RegEx.numberPositive(facilityDto.floors)){
             errors.rejectValue("floors","floors.positive","non");
-
         }
 
         if(!RegEx.numberPositive(facilityDto.maxPeople)){
@@ -163,6 +165,17 @@ public class FacilityDto implements Validator {
 
         if(!RegEx.numberTensPositive(facilityDto.poolArea)){
             errors.rejectValue("poolArea","pool.positive","nonn");
+        }
+        if(facilityDto.facilityType == null){
+            errors.rejectValue("facilityType","notNull","nonn");
+        }
+
+        if(facilityDto.rentType == null){
+            errors.rejectValue("rentType","notNull","nonn");
+        }
+
+        if(facilityDto.standardRoom == null){
+            errors.rejectValue("standardRoom","notNull","nonn");
         }
     }
 }

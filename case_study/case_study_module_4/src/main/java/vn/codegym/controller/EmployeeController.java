@@ -137,4 +137,9 @@ public class EmployeeController {
         this.iEmployeeService.remove(employee);
         return "redirect:/employees/";
     }
+
+    @ExceptionHandler(Exception.class)
+    public String error(){
+        return "404-page";
+    }
 }

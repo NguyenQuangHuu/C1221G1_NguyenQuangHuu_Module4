@@ -2,16 +2,11 @@ package vn.codegym.dto;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import vn.codegym.model.Account;
 import vn.codegym.model.Division;
 import vn.codegym.model.Education;
 import vn.codegym.model.Position;
 import vn.codegym.utils.RegEx;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import java.time.LocalDate;
 import java.time.Period;
 

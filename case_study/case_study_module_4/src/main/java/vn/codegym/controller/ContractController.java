@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import vn.codegym.dto.ContractDto;
 import vn.codegym.dto.FacilityDto;
 import vn.codegym.dto.ICustomerDto;
@@ -117,5 +114,10 @@ public class ContractController {
         Page<ICustomerDto> customersTakeEffectService = this.iContractService.takeEffectService(pageable);
         model.addAttribute("customersTakeEffectService",customersTakeEffectService);
         return "/contracts/customer-using-service";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String error(){
+        return "404-page";
     }
 }

@@ -8,10 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import vn.codegym.dto.FacilityDto;
 import vn.codegym.model.Facility;
 import vn.codegym.model.FacilityType;
@@ -23,7 +20,7 @@ import vn.codegym.service.IRentTypeService;
 import java.util.List;
 
 @Controller
-@RequestMapping("service")
+@RequestMapping("services")
 public class FacilityController {
 
     @Autowired
@@ -60,11 +57,17 @@ public class FacilityController {
 
     @PostMapping("/new")
     public String newFacility(@ModelAttribute @Validated FacilityDto facilityDto, BindingResult bindingResult){
+
         new FacilityDto().validate(facilityDto,bindingResult);
         if(bindingResult.hasFieldErrors()){
             return "/services/new";
         }
         this.iFacilityService.save(facilityDto);
-        return "redirect:/service/";
+        return "redirect:/services/";
+    }
+
+    @ExceptionHandler(Exception.class)
+    public String error(){
+        return "404-page";
     }
 }

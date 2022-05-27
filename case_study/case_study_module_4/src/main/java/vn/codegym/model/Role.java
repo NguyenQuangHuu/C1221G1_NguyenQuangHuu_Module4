@@ -1,5 +1,7 @@
 package vn.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -11,8 +13,9 @@ public class Role {
 
     private String name;
 
-    @OneToMany(mappedBy = "role")
-    private List<AccountRole> accountRoleList;
+    @OneToMany(mappedBy = "roles")
+    @JsonBackReference
+    private List<UserRole> userRoleList;
 
     public Role(String name) {
         this.name = name;
@@ -37,11 +40,11 @@ public class Role {
         this.name = name;
     }
 
-    public List<AccountRole> getAccountRoleList() {
-        return accountRoleList;
+    public List<UserRole> getUserRoleList() {
+        return userRoleList;
     }
 
-    public void setAccountRoleList(List<AccountRole> accountRoleList) {
-        this.accountRoleList = accountRoleList;
+    public void setUserRoleList(List<UserRole> userRoleList) {
+        this.userRoleList = userRoleList;
     }
 }

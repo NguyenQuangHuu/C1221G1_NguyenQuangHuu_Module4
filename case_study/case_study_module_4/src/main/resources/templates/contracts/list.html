@@ -12,7 +12,7 @@
     <div th:replace="~{/customers/layout::carousel}"></div>
     <!-- Tab content -->
 
-    <h4 class="text-secondary text-center my-2">Danh sách khách hàng</h4>
+    <h4 class="text-secondary text-center my-2">Danh sách hợp đồng</h4>
     <a href="/contracts/new" class="btn btn-detail">Tạo hợp đồng mới</a>
 <!--    <form method="get">-->
 <!--    <div class="row">-->
@@ -57,11 +57,9 @@
                 <td th:text="${contract.employee.name}"></td>
                 <td th:text="${contract.customer.name}"></td>
                 <td th:text="${contract.facility.name}"></td>
-
                 <td id="action">
-
-                    <button type="button" class="btn btn-detail">Chỉnh sửa</button>
-                    <button type="button" class="btn btn-detail">Xóa nuôn</button>
+                    <button type="button" class="btn btn-detail">Thêm dịch vụ đi kèm</button>
+                    <button type="button" class="btn btn-detail">Chi tiết hợp đồng</button>
 <!--                    <a class="btn btn-danger" th:href="@{/customers/delete/{id}(id=${customer.id})}">Delete</a>-->
                 </td>
             </tr>
@@ -84,7 +82,9 @@
         </ul>
     </nav>
 </div>
+<script>
 
+</script>
 <div th:replace="~{customers/layout::footer}"></div>
 <th:block th:replace="~{customers/layout::js-mdbootstrap}"></th:block>
 </body>

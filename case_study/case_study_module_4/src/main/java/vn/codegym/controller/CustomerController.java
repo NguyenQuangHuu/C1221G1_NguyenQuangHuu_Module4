@@ -121,7 +121,10 @@ public class CustomerController {
         return "redirect:/customers/";
     }
 
-
+    @ExceptionHandler(Exception.class)
+    public String error(){
+        return "404-page";
+    }
 
 
 }
