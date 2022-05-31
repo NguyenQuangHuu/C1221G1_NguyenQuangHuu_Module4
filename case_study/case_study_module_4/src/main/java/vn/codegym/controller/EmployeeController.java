@@ -4,7 +4,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -55,7 +57,8 @@ public class EmployeeController {
     public String getListEmployees(@PageableDefault(value=8) Pageable pageable, Model model,
                                    @RequestParam Optional<String> nameQuery,
                                    @RequestParam Optional<String> phoneQuery,
-                                   @RequestParam Optional<String> divisionQuery
+                                   @RequestParam Optional<String> divisionQuery,
+                                   @SortDefault(value = "division",direction = Sort.Direction.ASC) Sort sort
                                    ){
         if(nameQuery.isPresent()||phoneQuery.isPresent()||divisionQuery.isPresent()){
             String name = nameQuery.orElse("");

@@ -38,19 +38,25 @@ public class CustomerController {
     public String listCustomer(@PageableDefault(value=5) Pageable pageable, Model model,
                                @RequestParam Optional<String> nameQuery,
                                @RequestParam Optional<String> phoneQuery,
-                               @RequestParam Optional<String> typeQuery
+                               @RequestParam Optional<String> typeQuery,
+                               @RequestParam Optional<String> sort
                                ){
+
         if(nameQuery.isPresent() || phoneQuery.isPresent() || typeQuery.isPresent()){
             String nameValue = nameQuery.orElse("");
             String phoneValue =phoneQuery.orElse("");
             String typeValue =typeQuery.orElse("");
+            String sortValue = sort.orElse("");
             model.addAttribute("nameSearch",nameValue);
             model.addAttribute("phoneSearch",phoneValue);
             model.addAttribute("typeSearch",typeValue);
+            model.addAttribute("sort",sortValue);
             Page<Customer> customerPage = this.customerService.findByNameAndPhoneAndTypeCustomer(
                     nameValue,phoneValue,typeValue,pageable);
             model.addAttribute("customers",customerPage);
         }else{
+            String sortValue = sort.orElse("");
+            model.addAttribute("sort",sortValue);
             Page<Customer> customers = this.customerService.findAll(pageable);
             model.addAttribute("customers",customers);
         }

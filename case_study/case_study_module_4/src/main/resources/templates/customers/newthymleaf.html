@@ -95,24 +95,24 @@
 <!--               }-->
 <!--           }-->
 
-<!--           $.ajax(-->
-<!--               {-->
-<!--                   headers:{-->
-<!--                       'Accept': 'application/json',-->
-<!--                       'Content-Type': 'application/json'-->
-<!--                   },-->
-<!--                   type:"POST",-->
-<!--                   url : "/customers/new",-->
-<!--                   data : JSON.stringify(customerObj),-->
-<!--                   success: function(data){-->
-<!--                        console.log(data);-->
-<!--                   },-->
-<!--                   error:function (err){-->
-<!--                       console.log(err)-->
-<!--                       // $("#typeCustomerError").text(err.responseJSON[0].defaultMessage);-->
-<!--                       // $("#genderError").text(err.responseJSON[1].defaultMessage);-->
-<!--                   }-->
-<!--               }-->
+           $.ajax(
+               {
+                   headers:{
+                       'Accept': 'application/json',
+                       'Content-Type': 'application/json'
+                   },
+                   type:"POST",
+                   url : "/customers/new",
+                   data : JSON.stringify(customerObj),
+                   success: function(data){
+                        console.log(data);
+                   },
+                   error:function (err){
+                       console.log(err)
+                       // $("#typeCustomerError").text(err.responseJSON[0].defaultMessage);
+                       // $("#genderError").text(err.responseJSON[1].defaultMessage);
+                   }
+               }
 <!--           )-->
 <!--        })-->
 <!--    })-->

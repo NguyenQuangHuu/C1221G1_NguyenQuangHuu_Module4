@@ -36,7 +36,8 @@
 
     </div>
     </form>
-
+    <div>
+    </div>
 
 
 
@@ -44,7 +45,14 @@
         <thead>
         <tr>
             <td>#</td>
-            <td>name</td>
+            <td>
+                <a th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch},sort=name,asc)}"><i class="fas fa-sort-alpha-down"></i></a>
+
+                name
+
+                <a th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch},sort=name,desc)}"><i class="fas fa-sort-alpha-up"></i></a>
+
+            </td>
             <td>birthday</td>
             <td>card</td>
             <td>phone</td>
@@ -77,7 +85,7 @@
     <nav class="d-flex justify-content-center">
         <ul class="pagination pagination-circle">
             <li class="page-item">
-                <a class="page-link" th:if="${customers.hasPrevious()}" th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch})}">Previous</a>
+                <a class="page-link" th:if="${customers.hasPrevious()}" th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch},sort=${sort})}">Previous</a>
             </li>
             <li class="page-item active"><a class="page-link" th:href="@{/customers/(page=${customers.number})}" th:text="${customers.number+1}"></a></li>
 
@@ -86,7 +94,7 @@
             <li class="page-item"><a class="page-link" th:if="${!customers.isLast()}" th:text="${customers.totalPages}"></a></li>
 
             <li class="page-item">
-                <a class="page-link" th:if="${customers.hasNext()}" th:href="@{/customers/(page=${customers.number+1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch})}">Next</a>
+                <a class="page-link" th:if="${customers.hasNext()}" th:href="@{/customers/(page=${customers.number+1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch},sort=${sort})}">Next</a>
             </li>
         </ul>
     </nav>

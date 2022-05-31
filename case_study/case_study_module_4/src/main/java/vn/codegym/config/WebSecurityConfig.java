@@ -48,7 +48,7 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/services").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN','ROLE_SUPER_ADMIN')");
 
 //         Trang chỉ dành cho ADMIN
-        http.authorizeRequests().antMatchers("/contracts/*","/customers/*","/services/*").access("hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')");
+        http.authorizeRequests().antMatchers("/contracts/*","/customers/*","/services/*","/contracts-detail/*").access("hasAnyRole('ROLE_ADMIN','ROLE_SUPER_ADMIN')");
         http.authorizeRequests().antMatchers("/contracts/*","/customers*/","/services/*","/employees/*").access("hasRole(('ROLE_SUPER_ADMIN'))");
 
 //         Khi người dùng đã login, với vai trò XX.
@@ -72,12 +72,14 @@ public class WebSecurityConfig  extends WebSecurityConfigurerAdapter {
                 .passwordParameter("password")
                 // Cấu hình cho Logout Page.
                 //log out tự xây dựng và khi log out thành công sẽ đi vào method này
-                .and().logout().logoutUrl("/log-out").logoutSuccessUrl("/log-out-success");
+                .and().logout()
+                .logoutUrl("/log-out")
+                .logoutSuccessUrl("/log-out-success");
 
         // Cấu hình Remember Me. và thời gian ghi nhớ lấy từ bean dưới
         http.authorizeRequests().and() //
                 .rememberMe().tokenRepository(this.persistentTokenRepository()) //
-                .tokenValiditySeconds(60 * 60); // 24h
+                .tokenValiditySeconds(60 * 60); // 1h
 
     }
     @Bean

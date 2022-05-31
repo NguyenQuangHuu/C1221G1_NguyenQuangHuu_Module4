@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vn.codegym.dto.ContractDetailDto;
 import vn.codegym.dto.ContractDto;
 import vn.codegym.dto.FacilityDto;
 import vn.codegym.dto.ICustomerDto;
@@ -29,6 +30,9 @@ public class ContractController {
     private IContractService iContractService;
 
     @Autowired
+    private IAttachServiceService iAttachServiceService;
+
+    @Autowired
     private IEmployeeService iEmployeeService;
 
     @Autowired
@@ -40,8 +44,11 @@ public class ContractController {
     @Autowired
     private IContractDetailService iContractDetailService;
 
-    @Autowired
-    private IAttachServiceService iAttachServiceService;
+
+    @ModelAttribute("attachService")
+    public List<AttachService> listAttachService(){
+        return this.iAttachServiceService.allAttachService();
+    }
 
     @ModelAttribute("employees")
     public List<Employee> findAllEmployee(){

@@ -14,23 +14,21 @@
 
     <h4 class="text-secondary text-center my-2">Danh sách hợp đồng</h4>
     <a href="/contracts/new" class="btn btn-detail">Tạo hợp đồng mới</a>
-<!--    <form method="get">-->
-<!--    <div class="row">-->
+    <!--    <form method="get">-->
+    <!--    <div class="row">-->
 
-<!--        <div class="form-outline my-2 col-3 mx-3">-->
-<!--            <input type="text" id="searchName" class="form-control" value="33333" name="abc"/>-->
-<!--            <label class="form-label" for="searchName">Tìm kiếm theo tên</label>-->
-<!--        </div>-->
-<!--        <div class="form-outline my-2 col-3 me-2">-->
-<!--            <input type="text" id="searchPhone" class="form-control" name="cbd"/>-->
-<!--            <label class="form-label" for="searchPhone">Tìm kiếm theo số điện thoại</label>-->
-<!--        </div>-->
-<!--        <input type="submit" id="searchSubmit" value="tìm kiếm" class="btn btn-secondary col-2 my-2">-->
+    <!--        <div class="form-outline my-2 col-3 mx-3">-->
+    <!--            <input type="text" id="searchName" class="form-control" value="33333" name="abc"/>-->
+    <!--            <label class="form-label" for="searchName">Tìm kiếm theo tên</label>-->
+    <!--        </div>-->
+    <!--        <div class="form-outline my-2 col-3 me-2">-->
+    <!--            <input type="text" id="searchPhone" class="form-control" name="cbd"/>-->
+    <!--            <label class="form-label" for="searchPhone">Tìm kiếm theo số điện thoại</label>-->
+    <!--        </div>-->
+    <!--        <input type="submit" id="searchSubmit" value="tìm kiếm" class="btn btn-secondary col-2 my-2">-->
 
-<!--    </div>-->
-<!--    </form>-->
-
-
+    <!--    </div>-->
+    <!--    </form>-->
 
 
     <table class="table table-striped border">
@@ -48,41 +46,127 @@
         </tr>
         </thead>
         <tbody id="fetchData">
-            <tr th:each="contract,status : ${contracts}">
-                <td th:text="${status.count}"></td>
-                <td th:text="${contract.startDate}"></td>
-                <td th:text="${contract.endDate}"></td>
-                <td th:text="${contract.deposit}"></td>
-                <td th:text="${contract.totalBill}"></td>
-                <td th:text="${contract.employee.name}"></td>
-                <td th:text="${contract.customer.name}"></td>
-                <td th:text="${contract.facility.name}"></td>
-                <td id="action">
-                    <button type="button" class="btn btn-detail">Thêm dịch vụ đi kèm</button>
-                    <button type="button" class="btn btn-detail">Chi tiết hợp đồng</button>
-<!--                    <a class="btn btn-danger" th:href="@{/customers/delete/{id}(id=${customer.id})}">Delete</a>-->
-                </td>
-            </tr>
+        <tr th:each="contract,status : ${contracts}">
+            <td th:text="${status.count}"></td>
+            <td th:text="${contract.startDate}"></td>
+            <td th:text="${contract.endDate}"></td>
+            <td th:text="${contract.deposit}"></td>
+            <td th:text="${contract.totalBill}"></td>
+            <td th:text="${contract.employee.name}"></td>
+            <td th:text="${contract.customer.name}"></td>
+            <td th:text="${contract.facility.name}"></td>
+            <td id="action">
+                <button th:attr="onclick=|openAttachService('${contract.id}','${contract.customer.name}')|"
+                        type="button" class="btn btn-detail"
+                        data-mdb-toggle="modal" data-mdb-target="#exampleModal">Thêm dịch vụ đi kèm
+                </button>
+                <button type="button" class="btn btn-detail">Chi tiết hợp đồng</button>
+                <!--                    <a class="btn btn-danger" th:href="@{/customers/delete/{id}(id=${customer.id})}">Delete</a>-->
+            </td>
+        </tr>
         </tbody>
     </table>
     <nav class="d-flex justify-content-center">
         <ul class="pagination pagination-circle">
             <li class="page-item">
-                <a class="page-link" th:if="${contracts.hasPrevious()}" th:href="@{/contracts/(page=${contracts.number-1})}">Previous</a>
+                <a class="page-link" th:if="${contracts.hasPrevious()}"
+                   th:href="@{/contracts/(page=${contracts.number-1})}">Previous</a>
             </li>
-            <li class="page-item active"><a class="page-link" th:href="@{/contracts/(page=${contracts.number})}" th:text="${contracts.number+1}"></a></li>
+            <li class="page-item active"><a class="page-link" th:href="@{/contracts/(page=${contracts.number})}"
+                                            th:text="${contracts.number+1}"></a></li>
 
-            <li class="page-item"><a class="page-link" th:if="${contracts.number < contracts.getTotalPages()-2 }" th:text="..."></a></li>
+            <li class="page-item"><a class="page-link" th:if="${contracts.number < contracts.getTotalPages()-2 }"
+                                     th:text="..."></a></li>
 
-            <li class="page-item"><a class="page-link" th:if="${!contracts.isLast()}" th:text="${contracts.totalPages}"></a></li>
+            <li class="page-item"><a class="page-link" th:if="${!contracts.isLast()}"
+                                     th:text="${contracts.totalPages}"></a></li>
 
             <li class="page-item">
-                <a class="page-link" th:if="${contracts.hasNext()}" th:href="@{/contracts/(page=${contracts.number+1})}">Next</a>
+                <a class="page-link" th:if="${contracts.hasNext()}"
+                   th:href="@{/contracts/(page=${contracts.number+1})}">Next</a>
             </li>
         </ul>
     </nav>
 </div>
+
+<button type="button" class="btn btn-primary">
+    Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+     data-mdb-backdrop="false" data-mdb-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <h5 id="nameDetail" class="text-success text-center mt-4"></h5>
+            <p id="message" class="text-danger"></p>
+            <div class="modal-body">
+                <div class="form-outline my-2 col-4 mx-auto">
+                    <select id="attach_Service" class="form-select">
+                        <option value="">-- Dịch vụ đi kèm đã sử dụng --</option>
+                        <option th:each="attach : ${attachService}" th:value="${attach.id}"
+                                th:text="${attach.name}"></option>
+                    </select>
+
+                </div>
+
+                <div class="form-outline my-2 col-4 mx-auto border">
+                    <input type="text" id="quantity_Detail" class="form-control" name="quantity"/>
+                    <label class="form-label" for="quantity_Detail">Số lượng sử dụng</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                    Tắt
+                </button>
+                <button type="button" id="detailContractSubmit" class="btn btn-primary">Xác nhận thêm</button>
+            </div>
+
+        </div>
+    </div>
+</div>
 <script>
+
+
+        function openAttachService(id, name) {
+            $("#nameDetail").text(name);
+                $("#detailContractSubmit").click(function () {
+                let contractId = id;
+                let attachService = $("#attach_Service").val();
+                let quantity = $("#quantity_Detail").val();
+                let detailObj = {
+                    contractId: {
+                        id:contractId
+                    },
+                    attachService:{
+                        id:attachService
+                    } ,
+                    quantity: quantity
+                }
+
+                $.ajax({
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    url: "/contract-detail/create",
+                    data: JSON.stringify(detailObj),
+                    success: function(data){
+                        $("#attach_Service").val("");
+                        $("#quantity_Detail").val("");
+                        $("#message").text("Thêm mới thành công, nếu không muốn thêm dịch vụ đi kèm , hãy tắt bảng thông báo này")
+                    },error:function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+        }
 
 </script>
 <div th:replace="~{customers/layout::footer}"></div>

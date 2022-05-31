@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.security.Principal;
+
 @Controller
 public class MainController {
 
@@ -19,7 +21,7 @@ public class MainController {
     }
 
     @PostMapping("/login")
-    public String loginPage(){
+    public String loginPage(Principal principal){
         return "login-page";
     }
 

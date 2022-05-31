@@ -169,7 +169,5 @@ public class ContractDto implements Validator {
 //        Locale locale = new Locale("vi","VN");
 //        NumberFormat numberFormat = NumberFormat.getCurrencyInstance(locale);
 //        String currency = numberFormat.format(contractDto.deposit);
-
-
     }
 }
