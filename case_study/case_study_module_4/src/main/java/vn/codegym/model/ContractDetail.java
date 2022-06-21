@@ -1,5 +1,7 @@
 package vn.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,12 +10,14 @@ public class ContractDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "contract_id",referencedColumnName = "id")
+    @JsonBackReference
     private Contract contractId;
 
     @ManyToOne
     @JoinColumn(name="attach_service_id",referencedColumnName = "id")
+
     private AttachService attachService;
 
     private Integer quantity;

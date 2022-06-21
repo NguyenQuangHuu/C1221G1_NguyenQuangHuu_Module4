@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<th:block th:replace="~{layout::css-md}"></th:block>
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo mới</title>
+</head>
+<body>
+
+    <div class="container">
+        <h4 class="text-center text-primary my-4">Chỉnh sửa đơn hàng</h4>
+        <form class="container mx-auto" th:object="${order}" method="post" action="/orders/edit">
+            <input type="hidden" th:field="*{id}">
+            <div class="form-outline my-2 col-4 mx-auto">
+                <select class="form-select" th:field="*{product}">
+                    <option th:value="*{product.id}" th:text="*{product.name}"></option>
+                    <option th:each="p : ${products}" th:value="${p.id}" th:text="${p.name}"></option>
+                </select>
+            </div>
+
+
+            <div class="form-outline my-2 col-4 mx-auto border">
+                Ngày mua:
+                <input type="date" class="form-control border" th:field="*{buyDate}"/>
+
+            </div>
+            <div class="form-outline my-2 col-4 mx-auto border">
+                Số lượng
+                <input type="text" id="quantity" class="form-control" th:field="*{quantity}"/>
+
+            </div>
+
+
+            <!--            <div class="form-outline my-2 col-4 mx-auto">-->
+            <!--                <select id="gender" class="form-select" th:field="*{gender}">-->
+            <!--                    <option value="">&#45;&#45;Giới tính&#45;&#45;</option>-->
+            <!--                    <option value="0">Nữ</option>-->
+            <!--                    <option value="1">Nam</option>-->
+            <!--                </select>-->
+            <!--            </div>-->
+            <!--            <div class="my-2 col-4 mx-auto">-->
+            <!--                <p th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></p>-->
+            <!--            </div>-->
+            <!--            <div class="form-outline my-2 col-4 mx-auto" >-->
+            <!--                <select id="typeCustomer"  class="form-select" th:field="*{customerType}">-->
+            <!--                    <option value="">&#45;&#45;Loại khách hàng&#45;&#45;</option>-->
+            <!--                    <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>-->
+            <!--                </select>-->
+            <!--            </div>-->
+            <!--            <div class="my-2 col-4 mx-auto">-->
+            <!--                <p th:if="${#fields.hasErrors('customerType')}" th:errors="*{customerType}"></p>-->
+            <!--            </div>-->
+            <div class="col-4 my-2 mx-auto">
+                <input type="submit" id="register" value="Chỉnh sửa" class="btn btn-secondary w-100">
+            </div>
+        </form>
+    </div>
+
+<th:block th:replace="~{layout::js-md}"></th:block>
+</body>
+</html>

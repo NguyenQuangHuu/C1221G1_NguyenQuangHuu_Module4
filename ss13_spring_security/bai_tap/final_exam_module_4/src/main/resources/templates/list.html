@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <th:block th:replace="~{layout::css-md}"></th:block>
+
+</head>
+<body>
+<div class="container-fluid">
+    <!-- Tab content -->
+    <h4 class="text-secondary text-center my-2">Thống kê đơn hàng</h4>
+    <form method="get">
+        <div class="row">
+
+            <div class="form-outline my-2 col-3 mx-3">
+                <input type="date" id="searchName" class="form-control" name="startDate"/>
+                <label class="form-label" for="searchName">Danh sách từ </label>
+            </div>
+            <div class="form-outline my-2 col-3 me-2">
+                <input type="date" id="searchPhone" class="form-control" name="endDate"/>
+                <label class="form-label" for="searchPhone"> đến </label>
+            </div>
+
+<!--            <div class="form-outline my-2 col-3 mx-2">-->
+<!--                <select id="searchType" class="form-select" name="typeQuery">-->
+<!--                    <option value="">&#45;&#45;Chọn&#45;&#45;</option>-->
+<!--                    <option th:each="type : ${types}" th:value="${type.id}" th:text="${type.name}"></option>-->
+<!--                </select>-->
+<!--            </div>-->
+            <input type="submit" id="searchSubmit" value="Xem" class="btn btn-secondary col-2 my-2">
+
+        </div>
+    </form>
+    <div>
+        <form action="">
+            <select name="top" id="">
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+            <h3>Đơn hàng có tổng số tiền bán cao nhấ</h3>
+            <input type="submit" value="Xem top">
+        </form>
+    </div>
+    <table class="table table-striped border">
+        <thead>
+        <tr>
+            <td>STT</td>
+            <td>
+<!--                <a th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch},sort=name,asc)}"><i class="fas fa-sort-alpha-down"></i></a>-->
+
+                Mã đơn hàng
+
+<!--                <a th:href="@{/customers/(page=${customers.number-1},nameQuery=${nameSearch},phoneQuery=${phoneSearch},typeQuery=${typeSearch},sort=name,desc)}"><i class="fas fa-sort-alpha-up"></i></a>-->
+
+            </td>
+            <td>Tên sản phẩm</td>
+            <td>Giá (USD)</td>
+            <td>Loại sản phẩm</td>
+            <td>Ngày mua</td>
+            <td>Số lượng</td>
+            <td>Tổng tiền (USD)</td>
+            <td>Action</td>
+        </tr>
+        </thead>
+        <tbody id="fetchData">
+        <tr th:each="product,status : ${products}">
+            <td th:text="${status.count}"></td>
+            <td ><span th:text="${product.getOrderId()}"></span></td>
+            <td ><span th:text="${product.getProductName()}"></span></td>
+            <td ><span th:text="${product.getProductPrice()}"></span></td>
+            <td ><span th:text="${product.getTypeProduct()}"></span></td>
+            <td ><span th:text="${product.getBuyDate()}"></span></td>
+            <td ><span th:text="${product.getOrderQuantity()}"></span></td>
+            <td ><span th:text="${product.getOrderTotal()}"></span></td>
+
+
+<!--            <td th:text="${customer.email}"></td>-->
+<!--            <td th:text="${customer.address}"></td>-->
+<!--            <td th:text="${customer.customerType.name}"></td>-->
+            <td id="action">
+                <a class="btn btn-detail" th:href="@{orders/edit/__${product.getOrderId()}__}">Edit</a>
+                <!--                    <a class="btn btn-danger" th:href="@{/customers/delete/{id}(id=${customer.id})}">Delete</a>-->
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination pagination-circle">
+            <li class="page-item">
+                <a class="page-link" th:if="${products.hasPrevious()}" th:href="@{/list(page=${products.number-1})}">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" th:href="@{/list(page=${products.number})}" th:text="${products.number+1}"></a></li>
+
+            <li class="page-item"><a class="page-link" th:if="${products.number < products.getTotalPages()-2 }" th:text="..."></a></li>
+
+            <li class="page-item"><a class="page-link" th:if="${!products.isLast()}" th:text="${products.totalPages}"></a></li>
+
+            <li class="page-item">
+                <a class="page-link" th:if="${products.hasNext()}" th:href="@{/list(page=${products.number+1})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<!--<div class="modal modal-side modal-top-left fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+<!--    <div class="modal-dialog">-->
+<!--        <div class="modal-content">-->
+<!--            <div class="modal-header">-->
+<!--                <h5 class="modal-title" id="exampleModalLabel">WARNING</h5>-->
+<!--                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>-->
+<!--            </div>-->
+<!--            <form action="/customers/delete" method="get">-->
+<!--                <input id="idDelete" type="hidden" name="id">-->
+
+<!--                <div class="modal-body">Are you sure you want to delete this customer with name  <span class="text-danger" id="nameDelete"></span> !</div>-->
+<!--                <div class="modal-footer">-->
+<!--                    <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cancel</button>-->
+<!--                    <button type="submit" class="btn btn-primary">OK!</button>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script>-->
+<!--    function deleteModal(id,name){-->
+<!--        $("#idDelete").val(id);-->
+<!--        $("#nameDelete").text(name);-->
+<!--    }-->
+<!--</script>-->
+<th:block th:replace="~{/layout::js-md}"></th:block>
+</body>
+</html>

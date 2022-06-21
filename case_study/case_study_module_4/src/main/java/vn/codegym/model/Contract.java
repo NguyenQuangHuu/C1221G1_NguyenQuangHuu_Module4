@@ -1,5 +1,7 @@
 package vn.codegym.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -23,15 +25,16 @@ public class Contract {
     @JoinColumn(name="employee",referencedColumnName = "id")
     private Employee employee;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="customer",referencedColumnName = "id")
+    @JsonBackReference
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name="facility",referencedColumnName = "id")
     private Facility facility;
 
-    @OneToMany(mappedBy = "contractId")
+    @OneToMany(mappedBy = "contractId",cascade = CascadeType.ALL)
     private List<ContractDetail> contractDetail;
 
     public Contract() {
